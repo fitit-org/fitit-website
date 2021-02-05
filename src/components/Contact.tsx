@@ -5,7 +5,7 @@ export default class Contact extends React.Component {
   render() {
     return (
       <div id={ 'contact' } className={ 'view--full-height' }>
-        <img className={ '' } src={ menu } useMap="#menu" alt=""/>
+        <img className={ 'menu--bottom-right' } src={ menu } useMap="#menu" alt=""/>
         <map name="menu" style={{ color: 'red' }}>
           <area alt="" href="#main-view" coords="12,12,11" shape="circle"/>
           <area alt="" href="#info" coords="12,45,11" shape="circle"/>
