@@ -9,7 +9,12 @@ export default class MainView extends React.Component< {}, { currentAnimation: s
   }
 
   componentDidMount() {
-    this.animation = setInterval(() => this.changeAnimation(), 1500);
+    if(this.state.currentAnimation === 'slide-top') {
+      this.animation = setInterval(() => this.changeAnimation(), 1100);
+    }
+    else {
+      this.animation = setInterval(() => this.changeAnimation(), 1500);
+    }
   }
 
   componentWillUnmount() {
@@ -33,10 +38,10 @@ export default class MainView extends React.Component< {}, { currentAnimation: s
     return (
       <div id={ 'main-view' } className={ 'view--full-height main-view--background' }>
         <div className={ 'absolute right-6 top-5 text-2xl tracking-wide text-white' }>
-          <p className={ 'text--shadow' }><a href={ '#login' }>Zaloguj się</a>  &bull;  <a href={ '#register' }>Zarejestruj się</a></p>
+          <p className={ 'text--shadow' }><a href={ '#login-register' }>Zaloguj się</a>  &bull;  <a href={ '#login-register' }>Zarejestruj się</a></p>
         </div>
         <div className={ `main-view__arrow arrow--bottom-center ${this.state.currentAnimation}` }>
-          <a href={ '#articles' }><img src={ arrow } alt={ 'Next page' }/></a>
+          <a href={ '#info' }><img src={ arrow } alt={ 'Next page' }/></a>
         </div>
       </div>
     );

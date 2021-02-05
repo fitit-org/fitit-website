@@ -1,10 +1,11 @@
 import React from 'react';
-import menu from '../img/contact/contactMenu.svg';
+import menu from '../img/info/infoMenu.svg';
 
-export default class Contact extends React.Component {
+export default class Info extends React.Component {
   render() {
     return (
-      <div id={ 'contact' } className={ 'view--full-height' }>
+      <div id={ 'info' } className={ 'view--full-height' }>
+
         <img className={ '' } src={ menu } useMap="#menu" alt=""/>
         <map name="menu" style={{ color: 'red' }}>
           <area alt="" href="#main-view" coords="12,12,11" shape="circle"/>

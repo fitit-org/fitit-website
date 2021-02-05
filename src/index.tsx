@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MainView from './components/MainView';
-import Articles from './components/Articles';
-import Login from './components/Login';
-import Register from './components/Register';
+import Info from './components/Info';
+import LoginRegister from './components/LoginRegister';
 import Contact from './components/Contact';
 import './styles/style.scss';
 
@@ -12,9 +11,8 @@ class App extends React.Component {
     return (
       <div>
         <MainView />
-        <Articles />
-        <Login />
-        <Register />
+        <Info />
+        <LoginRegister />
         <Contact />
       </div>
     );
