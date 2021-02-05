@@ -9,7 +9,7 @@ export default class MainView extends React.Component< {}, { currentAnimation: s
   }
 
   componentDidMount() {
-    this.animation = setInterval(() => this.changeAnimation(), 2000);
+    this.animation = setInterval(() => this.changeAnimation(), 1500);
   }
 
   componentWillUnmount() {
