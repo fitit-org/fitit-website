@@ -8,6 +8,14 @@
 html {
     scroll-behavior: smooth;
     overflow: hidden;
+
+    input[type=text], input[type=password] {
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        box-shadow: none;
+        outline: none;
+        border-bottom: 4px solid pink;
+    }
 }
 
 #root {
@@ -53,5 +61,48 @@ html {
     position: relative;
     float: right;
     right: 20px;
-    bottom: calc(150px - 100vh);
+    bottom: calc(170px - 100vh);
+}
+
+.info--background {
+    border: 2px solid #707070;
+    background: url(../img/bubblesBottom.svg) no-repeat bottom left, url(../img/bubblesTop.svg) no-repeat top right;
+    background-size: 40%, 50%;
+}
+
+.login-register--background {
+    @extend .info--background;
+}
+
+.login-register--header {
+    font-size: $header-size;
+    color: $header-color;
+    text-align: center;
+}
+
+.login__input--text {
+    font-size: $input-size;
+    color: $input-color;
+}
+
+.register__input--text {
+    @extend .login__input--text;
+}
+
+.login-register__input--danger {
+    border-bottom: 3px red solid;
+    box-shadow: 0 0 5px 5px red;
+    outline: none;
+}
+
+.login-register__input--focus {
+    border-bottom: 3px blue solid !important;
+    box-shadow: 0 4px 5px -2px blue !important;
+    outline: none;
+}
+
+.contact--background {
+    border: 2px solid #707070;
+    background: url(../img/contact/bubblesBottom.svg) no-repeat bottom left, url(../img/contact/bubblesTop.svg) no-repeat top right;
+    background-size: contain, 60%;
 }

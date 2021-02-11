@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="843.21381"
+   height="666"
+   viewBox="0 0 843.21381 666"
+   version="1.1"
+   id="svg64"
+   sodipodi:docname="bubblesTop.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata70">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs68">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath74">
+      <rect
+         id="rect76"
+         width="843.21381"
+         height="667.57239"
+         x="1077.7863"
+         y="0" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2488"
+     inkscape:window-height="1376"
+     id="namedview66"
+     showgrid="false"
+     inkscape:zoom="1.2719428"
+     inkscape:cx="615.66061"
+     inkscape:cy="303.75542"
+     inkscape:window-x="72"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg64" />
+  <g
+     id="Group_48"
+     data-name="Group 48"
+     transform="translate(-1077.7863)"
+     clip-path="url(#clipPath74)">
+    <path
+       id="Path_2"
+       data-name="Path 2"
+       d="m 6302,1584 c 0,0 112,98 240,166 128,68 266,40 392,124 126,84 212,250 212,250 v -540 z"
+       transform="translate(-5225,-1584)"
+       fill="rgba(3,123,233,0.65)"
+       inkscape:connector-curvature="0" />
+    <circle
+       id="Ellipse_6"
+       data-name="Ellipse 6"
+       cx="61"
+       cy="61"
+       r="61"
+       transform="translate(1562,456)"
+       style="fill:#8d6fde" />
+    <ellipse
+       id="Ellipse_7"
+       data-name="Ellipse 7"
+       cx="232"
+       cy="236"
+       rx="232"
+       ry="236"
+       transform="translate(1603,194)"
+       fill="rgba(247,0,202,0.41)" />
+  </g>
+</svg>

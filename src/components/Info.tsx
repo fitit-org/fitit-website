@@ -4,7 +4,7 @@ import menu from '../img/info/infoMenu.svg';
 export default class Info extends React.Component {
   render() {
     return (
-      <div id={ 'info' } className={ 'view--full-height' }>
+      <div id={ 'info' } className={ 'info--background view--full-height' }>
 
         <img className={ 'menu--bottom-right' } src={ menu } useMap="#menu" alt=""/>
         <map name="menu" style={{ color: 'red' }}>
