@@ -36,14 +36,15 @@ export default class register extends React.Component<{}, {userName: userNameTyp
       },
       registerPassword2: {
         type: 'text',
-        value: 'Hasło',
+        value: 'Powtórz Hasło',
         clicked: false
       }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.usernameValidation = this.usernameValidation.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any): void {
@@ -79,23 +80,32 @@ export default class register extends React.Component<{}, {userName: userNameTyp
     event.target.classList.add('login-register__input--focus')
   }
 
-  usernameValidation(event: any): void {
+  handleBlur(event: any): void {
+    event.target.classList.remove('login-register__input--focus')
     if(event.target.value === '') {
-      event.target.classList.add('register__input--danger')
+      event.target.classList.add('login-register__input--danger')
+      this.setState({})
     }
+    else {
+      event.target.classList.remove('login-register__input--danger')
+    }
+  }
+
+  handleSubmit(event: any): void {
+
   }
 
   render() {
     return (
       <div className={ 'flex-auto flex-none' }>
         <span className={ 'login-register--header' }>Rejestracja</span>
-        <form>
-          <input id={ 'userName' } className={ 'register__input--text' } type='text' onClick={ this.handleClick } onChange={ this.handleChange } onMouseOut={ this.usernameValidation} value={ this.state.userName.value } /><br/>
-          <input id={ 'mail' } className={ 'register__input--text' } type='text' onChange={ this.handleChange } onClick={ this.handleClick } value={ this.state.mail.value } /><br/>
-          <input id={ 'registerPassword' } className={ 'register__input--text' } type={ this.state.registerPassword.type } onChange={ this.handleChange } onClick={ this.handleClick } value={ this.state.registerPassword.value } /><br/>
-          <input id={ 'registerPassword2' } className={ 'register__input--text' } type={ this.state.registerPassword2.type } onChange={ this.handleChange } onClick={ this.handleClick } value={ this.state.registerPassword2.value } /><br/>
+        <form onSubmit={ this.handleSubmit }>
+          <input id={ 'userName' } className={ 'register__input--text' } type='text' onClick={ this.handleClick } onChange={ this.handleChange } onBlur={ this.handleBlur} value={ this.state.userName.value } /><br/>
+          <input id={ 'mail' } className={ 'register__input--text' } type='text' onChange={ this.handleChange } onClick={ this.handleClick } onBlur={ this.handleBlur} value={ this.state.mail.value } /><br/>
+          <input id={ 'registerPassword' } className={ 'register__input--text' } type={ this.state.registerPassword.type } onChange={ this.handleChange } onClick={ this.handleClick } onBlur={ this.handleBlur} value={ this.state.registerPassword.value } /><br/>
+          <input id={ 'registerPassword2' } className={ 'register__input--text' } type={ this.state.registerPassword2.type } onChange={ this.handleChange } onClick={ this.handleClick } onBlur={ this.handleBlur} value={ this.state.registerPassword2.value } /><br/>
           <label><input type="checkbox"/>Akceptuję warunki umowy</label>
-          <input type="submit" value="Zaloguj" />
+          <input type="submit" value="Rejestracja" />
         </form>
       </div>
     );

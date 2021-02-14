@@ -1,0 +1,20 @@
+.main-view--background {
+  background: url(../img/main-view/logoShadow.svg) no-repeat center, url(../img/main-view/circles.svg) no-repeat center,  url(../img/main-view/trianglesBottom.svg) no-repeat left bottom,  url(../img/main-view/trianglesTop.svg) no-repeat left top, url(../img/main-view/strips.svg) no-repeat center, transparent linear-gradient(245deg, #037BE9BA 0%, #F700CABD 100%) 0% 0% padding-box no-repeat;
+  background-size: 30% auto, auto, 30% auto, 30% auto, auto, 100% auto;
+}
+
+.main-arrow--bottom-center {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 40px);
+}
+
+.slide-top {
+	-webkit-animation: slide-top 1.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-top 1.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.slide-bottom {
+	-webkit-animation: slide-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-bottom 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}

@@ -1,0 +1,35 @@
+.menu-login-register--bottom-right {
+  position: absolute;
+  float: right;
+  right: 20px;
+  bottom: calc(60px - 200vh);
+}
+
+.login-register--background {
+  @extend .info--background;
+}
+
+.login-register--header {
+  font-size: $header-size;
+  color: $header-color;
+  text-align: center;
+}
+
+.login__input--text {
+  font-size: $input-size;
+  color: $input-color;
+}
+
+.register__input--text {
+  @extend .login__input--text;
+}
+
+.login-register__input--danger {
+  border-bottom: 1px red solid !important;
+  box-shadow: 0px 10px 12px -7px red !important;
+}
+
+.login-register__input--focus {
+  border-bottom: 1px grey solid !important;
+  box-shadow: 0px 10px 12px -7px grey !important;
+}

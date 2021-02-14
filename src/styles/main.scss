@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'variables';
+@import 'fonts';
+@import 'animations';
+@import 'styles-MainView';
+@import 'styles-Info';
+@import 'styles-LoginRegister';
+@import 'styles-Contact';
+
+html {
+    scroll-behavior: smooth;
+    overflow: hidden;
+
+    input[type=text], input[type=password] {
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        box-shadow: none;
+        outline: none;
+        border-bottom: 1px solid lightgrey;
+    }
+}
+
+#root {
+    height: 400vh;
+    font-family: $font-family;
+}
+
+.view--full-height {
+    height: 100vh;
+}
+
+.text--shadow {
+    font-weight: 400;
+    text-shadow: 0px 3px 6px #000;
+}
