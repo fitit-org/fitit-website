@@ -7,8 +7,9 @@ export default class LoginRegister extends React.Component {
   render() {
     return (
       <div className={ 'info--background view--full-height' }>
-        <div id={ 'login-register' } className={ 'view--full-height flex flex-row flex-nowrap  justify-center items-center place-items-center' }>
+        <div id={ 'login-register' } className={ 'view--full-height flex flex-row flex-nowrap justify-center items-center' }>
           <Login />
+          <hr className={ 'hr--vertical' }/>
           <Register />
         </div>
         <img className={ 'menu-login-register--bottom-right' } src={ menu } useMap="#menu" alt=""/>

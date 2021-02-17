@@ -14,11 +14,12 @@ html {
     overflow: hidden;
 
     input[type=text], input[type=password] {
+        display: block;
         background: rgba(0, 0, 0, 0);
         border: none;
         box-shadow: none;
         outline: none;
-        border-bottom: 1px solid lightgrey;
+        border-bottom: 1.5px solid #0000002E;
     }
 }
 
@@ -34,4 +35,16 @@ html {
 .text--shadow {
     font-weight: 400;
     text-shadow: 0px 3px 6px #000;
+}
+
+.hr--vertical {
+    border: none;
+    border-left: 3px solid #0000002E;
+    border-radius: 100px;
+    height: 45vh;
+    width: 1px;
+}
+
+.input--margin {
+    margin-top: 12px;
 }

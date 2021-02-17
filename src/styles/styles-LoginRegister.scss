@@ -5,31 +5,95 @@
   bottom: calc(60px - 200vh);
 }
 
-.login-register--background {
-  @extend .info--background;
+.login-register {
+  &--background {
+    @extend .info--background;
+  }
+
+  &--header {
+    font-size: $header-size;
+    color: $header-color;
+    text-align: center;
+    letter-spacing: 3px;
+  }
+
+  &__input {
+    &--danger {
+      border-bottom: 1px #f7003eb8 solid !important;
+      box-shadow: 0px 10px 10px -7px #f7003eb8 !important;
+      background-image: url(../img/danger.svg) !important;
+    }
+
+    &--focus {
+      border-bottom: 1px #0000002E solid !important;
+      box-shadow: 0px 10px 12px -7px #0000002E !important;
+    }
+
+    &--error {
+      color: #f7003eb8;
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+  }
+
+  &__form {
+    text-align: left;
+  }
 }
 
-.login-register--header {
-  font-size: $header-size;
-  color: $header-color;
+.login {
+  height: 40vh;
+  margin-right: 5%;
   text-align: center;
-}
 
-.login__input--text {
-  font-size: $input-size;
-  color: $input-color;
-}
+  &__input {
+    width: 500px;
+    &--text {
+      font-size: $input-size;
+      color: $input-color;
+      font-weight: 400;
+      font-style: italic;
+      width: 300px;
+    }
+  }
 
-.register__input--text {
-  @extend .login__input--text;
-}
+  &__forget {
+    &--text {
+      font-size: $text-size;
+      color: $text-color;
+    }
+  }
 
-.login-register__input--danger {
-  border-bottom: 1px red solid !important;
-  box-shadow: 0px 10px 12px -7px red !important;
+  &__button {
+    display: block;
+    color: #fff;
+    float: right;
+    padding: 7px;
+    width: 70px;
+    border-radius: 20px;
+    background-image: linear-gradient(245deg, #037BE9BA 0%, #F700CABD 100%);
+  }
 }
+.register {
+  height: 40vh;
+  margin-left: 5%;
+  text-align: center;
 
-.login-register__input--focus {
-  border-bottom: 1px grey solid !important;
-  box-shadow: 0px 10px 12px -7px grey !important;
+  &__input {
+    &--text {
+      @extend .login__input--text;
+    }
+  }
+
+  &__button {
+    @extend .login__button;
+    width: 90px;
+  }
+
+  &__agreement {
+    &--text {
+      font-size: $text-size;
+      color: $text-color;
+    }
+  }
 }

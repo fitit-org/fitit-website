@@ -1,13 +1,12 @@
 import React from 'react';
 
 interface userNameTypes {
-  value: string
+  value: string;
   clicked?: boolean;
 }
 
 interface loginPasswordTypes {
-  value: string
-  type?: string
+  value: string;
   clicked?: boolean;
 }
 
@@ -16,18 +15,18 @@ export default class Login extends React.Component<{}, {userName: userNameTypes,
     super(props);
     this.state = {
       userName: {
-        value: 'Nazwa użytkownika',
+        value: '',
         clicked: false
       },
       loginPassword: {
-        type: 'text',
-        value: 'Hasło',
+        value: '',
         clicked: false
         }
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleFirstClick = this.handleFirstClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   handleChange(event: any): void {
@@ -39,24 +38,32 @@ export default class Login extends React.Component<{}, {userName: userNameTypes,
     }
   }
 
-  handleFirstClick(event: any): void {
-    if(event.target.id === 'userName' && this.state.userName.clicked === false) {
-      this.setState({userName: {clicked: true, value: ''}});
+  handleClick(event: any): void {
+    event.target.classList.add('login-register__input--focus');
+  }
+
+  handleBlur(event: any): void {
+    event.target.classList.remove('login-register__input--focus')
+    if(event.target.value === '') {
+      event.target.classList.add('login-register__input--danger')
     }
-    else if(event.target.id === 'loginPassword' && this.state.loginPassword.clicked === false) {
-      this.setState({loginPassword: {type: 'password', clicked: true, value: ''}});
+    else {
+      event.target.classList.remove('login-register__input--danger')
     }
   }
 
   render() {
     return (
-      <div className={ 'flex-auto flex-none' }>
+      <div className={ 'login' }>
         <span className={ 'login-register--header' }>Logowanie</span>
-        <form>
-          <input id={ 'userName' } className={ 'login__input--text' } type='text' onClick={ this.handleFirstClick } onChange={ this.handleChange } value={ this.state.userName.value } /><br/>
-          <input id={ 'loginPassword' } className={ 'login__input--text' } type={ this.state.loginPassword.type } onChange={ this.handleChange } onClick={ this.handleFirstClick } value={ this.state.loginPassword.value } /><br/>
-          <a className={ 'login__forget--text' } href=" ">Nie pamiętasz hasła?</a>
-          <input type="submit" value="Zaloguj" />
+        <form className={ 'login-register__form' }>
+          <input id={ 'userName' } className={ 'login__input--text input--margin' } type='text' onClick={ this.handleClick } onChange={ this.handleChange } onBlur={ this.handleBlur} value={ this.state.userName.value } placeholder='Adres email'/>
+
+          <input id={ 'loginPassword' } className={ 'login__input--text input--margin' } type='password' onChange={ this.handleChange } onClick={ this.handleClick } onBlur={ this.handleBlur} value={ this.state.loginPassword.value } placeholder='Hasło'/><br/>
+
+          <a className={ 'login__forget--text' } href="#register" onClick={ ()=>{ alert('No to dupa'); } }>Nie pamiętasz hasła?</a><br/>
+
+          <input className={ 'login__button input--margin' } type="submit" value="Zaloguj" />
         </form>
       </div>
     );
