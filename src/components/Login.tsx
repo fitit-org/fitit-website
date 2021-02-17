@@ -1,5 +1,5 @@
 import React from 'react';
-import { mailValidation } from './Helpers';
+import { mailValidation, passwordValidation } from './Helpers';
 
 interface mailTypes {
   value: string;
@@ -29,7 +29,7 @@ export default class Login extends React.Component<{}, {mail: mailTypes, loginPa
 
   handleChange(event: any): void {
     switch(event.target.id) {
-      case 'mail' : this.setState({mail: {value: event.target.value}}); break;
+      case 'loginMail' : this.setState({mail: {value: event.target.value}}); break;
       case 'loginPassword' : this.setState({loginPassword: {value: event.target.value}}); break;
     }
   }
@@ -43,7 +43,18 @@ export default class Login extends React.Component<{}, {mail: mailTypes, loginPa
   handleBlur(event: any): void {
     event.target.classList.remove('login-register__input--focus')
     if(event.target.id === 'loginMail') {
-      let error = mailValidation(event.target.name);
+      let error = mailValidation(event.target.value);
+      if(error !== '') {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
+    }
+    if(event.target.id === 'loginPassword') {
+      let error = passwordValidation(event.target.value);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
@@ -74,6 +85,7 @@ export default class Login extends React.Component<{}, {mail: mailTypes, loginPa
           onBlur={ this.handleBlur}
           value={ this.state.mail.value }
           placeholder='Adres email'
+          required
           />
           <span id={ 'loginMailError' } className={ 'login-register__input--error' }></span>
           <input
@@ -85,8 +97,9 @@ export default class Login extends React.Component<{}, {mail: mailTypes, loginPa
           onBlur={ this.handleBlur}
           value={ this.state.loginPassword.value }
           placeholder='Hasło'
-          /><br/>
-          <span id={ 'loginPasswordError' } className={ 'login-register__input--error' }></span>
+          required
+          />
+          <span id={ 'loginPasswordError' } className={ 'login-register__input--error' }></span><br />
           <a className={ 'login__forget--text' } href="#register" onClick={ ()=>{ alert('No to dupa'); } }>Nie pamiętasz hasła?</a><br/>
 
           <input className={ 'login__button input--margin' } type="submit" value="Zaloguj" />

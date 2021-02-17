@@ -1,5 +1,5 @@
 import React from 'react';
-import { nameSurnameValidation, mailValidation } from './Helpers';
+import { nameSurnameValidation, mailValidation, passwordValidation } from './Helpers';
 
 interface nameTypes {
   value: string;
@@ -74,10 +74,31 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       }
     }
     if(event.target.id === 'registerMail') {
-      let error = mailValidation(event.target.name);
+      let error = mailValidation(event.target.value);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
+    }
+    if(event.target.id === 'registerPassword') {
+      let error = passwordValidation(event.target.value);
+      if(error !== '') {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
+    }
+    if(event.target.id === 'registerPassword2') {
+      if(event.target.value !== this.state.registerPassword.value ) {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = 'Hasła nie zgadzają się';
       }
       else {
         event.target.classList.remove('login-register__input--danger');
@@ -157,7 +178,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             required
           />
           <span id={ 'registerPassword2Error' } className={ 'login-register__input--error' }></span><br/>
-          <a className={ 'register__agreement--text' } href="https://www.youtube.com/watch?v=DLzxrzFCyOs" target='_blank' rel='noreferrer'><input type="checkbox"/>  Akceptuję warunki umowy</a><br/>
+          <input type="checkbox" required /><a className={ 'register__agreement--text' } href="https://www.youtube.com/watch?v=DLzxrzFCyOs" target='_blank' rel='noreferrer'> Akceptuję warunki umowy</a><br/>
           <input className={ 'input--margin register__button' } type="submit" value="Rejestracja" />
         </form>
       </div>
