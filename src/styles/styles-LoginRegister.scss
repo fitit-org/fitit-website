@@ -21,7 +21,7 @@
     &--danger {
       border-bottom: 1px #f7003eb8 solid !important;
       box-shadow: 0px 10px 10px -7px #f7003eb8 !important;
-      background: no-repeat url(../img/danger.svg) !important;
+      background: url(../img/danger.svg) no-repeat right/20px !important;
     }
 
     &--focus {
