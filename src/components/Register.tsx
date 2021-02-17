@@ -62,8 +62,8 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
 
   handleBlur(event: any): void {
     event.target.classList.remove('login-register__input--focus');
-    let error = nameSurnameValidation(event.target.name, event.target.value);
     if(event.target.id === 'name' || event.target.id === 'surname') {
+      let error = nameSurnameValidation(event.target.name, event.target.value);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
@@ -72,7 +72,17 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
         event.target.classList.remove('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
       }
-
+    }
+    if(event.target.id === 'mail') {
+      let error = mailValidation(event.target.name, event.target.value);
+      if(error !== '') {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
     }
   }
 
