@@ -16,11 +16,15 @@ export function nameSurnameValidation(fieldName: string, fieldValue: string) : s
   }
 }
 
-export function mailValidation(fieldName: string, fieldValue: string) {
+export function mailValidation(fieldValue: string) : string {
   if(!mailRegex.test(fieldValue)) {
     return 'Proszę podać prawidłowy adres';
   }
   else {
     return '';
   }
+}
+
+export function passwordValidation(fieldValue: string) : string {
+
 }

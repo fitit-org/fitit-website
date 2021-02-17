@@ -1,66 +1,92 @@
 import React from 'react';
+import { mailValidation } from './Helpers';
 
-interface userNameTypes {
+interface mailTypes {
   value: string;
-  clicked?: boolean;
 }
 
 interface loginPasswordTypes {
   value: string;
-  clicked?: boolean;
 }
 
-export default class Login extends React.Component<{}, {userName: userNameTypes, loginPassword: loginPasswordTypes}> {
+export default class Login extends React.Component<{}, {mail: mailTypes, loginPassword: loginPasswordTypes}> {
   constructor(props: Readonly<{}>) {
     super(props);
     this.state = {
-      userName: {
-        value: '',
-        clicked: false
+      mail: {
+        value: ''
       },
       loginPassword: {
-        value: '',
-        clicked: false
+        value: ''
         }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event: any): void {
-    if(event.target.id === 'userName') {
-      this.setState({userName: {value: event.target.value}});
-    }
-    else if(event.target.id === 'loginPassword') {
-      this.setState({loginPassword: {value: event.target.value}});
+    switch(event.target.id) {
+      case 'mail' : this.setState({mail: {value: event.target.value}}); break;
+      case 'loginPassword' : this.setState({loginPassword: {value: event.target.value}}); break;
     }
   }
 
   handleClick(event: any): void {
     event.target.classList.add('login-register__input--focus');
+    event.target.classList.remove('login-register__input--danger');
+    document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
   }
 
   handleBlur(event: any): void {
     event.target.classList.remove('login-register__input--focus')
-    if(event.target.value === '') {
-      event.target.classList.add('login-register__input--danger')
-    }
-    else {
-      event.target.classList.remove('login-register__input--danger')
+    if(event.target.id === 'loginMail') {
+      let error = mailValidation(event.target.name);
+      if(error !== '') {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
     }
   }
+
+  handleSubmit(event: any): void {
+
+  }
+
 
   render() {
     return (
       <div className={ 'login' }>
         <span className={ 'login-register--header' }>Logowanie</span>
         <form className={ 'login-register__form' }>
-          <input id={ 'userName' } className={ 'login__input--text input--margin' } type='text' onClick={ this.handleClick } onChange={ this.handleChange } onBlur={ this.handleBlur} value={ this.state.userName.value } placeholder='Adres email'/>
-
-          <input id={ 'loginPassword' } className={ 'login__input--text input--margin' } type='password' onChange={ this.handleChange } onClick={ this.handleClick } onBlur={ this.handleBlur} value={ this.state.loginPassword.value } placeholder='Hasło'/><br/>
-
+          <input
+          id={ 'loginMail' }
+          className={ 'login__input--text input--margin' }
+          type='text'
+          onClick={ this.handleClick }
+          onChange={ this.handleChange }
+          onBlur={ this.handleBlur}
+          value={ this.state.mail.value }
+          placeholder='Adres email'
+          />
+          <span id={ 'loginMailError' } className={ 'login-register__input--error' }></span>
+          <input
+          id={ 'loginPassword' }
+          className={ 'login__input--text input--margin' }
+          type='password'
+          onClick={ this.handleClick }
+          onChange={ this.handleChange }
+          onBlur={ this.handleBlur}
+          value={ this.state.loginPassword.value }
+          placeholder='Hasło'
+          /><br/>
+          <span id={ 'loginPasswordError' } className={ 'login-register__input--error' }></span>
           <a className={ 'login__forget--text' } href="#register" onClick={ ()=>{ alert('No to dupa'); } }>Nie pamiętasz hasła?</a><br/>
 
           <input className={ 'login__button input--margin' } type="submit" value="Zaloguj" />

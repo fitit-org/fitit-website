@@ -46,9 +46,9 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
 
   handleChange(event: any): void {
     switch(event.target.id) {
-      case 'name' : this.setState({name: {value: event.target.value}}); break;
-      case 'surname' : this.setState({surname: {value: event.target.value}}); break;
-      case 'mail' : this.setState({mail: {value: event.target.value}}); break;
+      case 'registerName' : this.setState({name: {value: event.target.value}}); break;
+      case 'registerSurname' : this.setState({surname: {value: event.target.value}}); break;
+      case 'registerMail' : this.setState({mail: {value: event.target.value}}); break;
       case 'registerPassword' : this.setState({registerPassword: {value: event.target.value}}); break;
       case 'registerPassword2' : this.setState({registerPassword2: {value: event.target.value}}); break;
     }
@@ -62,7 +62,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
 
   handleBlur(event: any): void {
     event.target.classList.remove('login-register__input--focus');
-    if(event.target.id === 'name' || event.target.id === 'surname') {
+    if(event.target.id === 'registerName' || event.target.id === 'registerSurname') {
       let error = nameSurnameValidation(event.target.name, event.target.value);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
@@ -73,8 +73,8 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
         document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
       }
     }
-    if(event.target.id === 'mail') {
-      let error = mailValidation(event.target.name, event.target.value);
+    if(event.target.id === 'registerMail') {
+      let error = mailValidation(event.target.name);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
@@ -96,7 +96,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
         <span className={ 'login-register--header' }>Rejestracja</span>
         <form className={ 'login-register__form' } onSubmit={ this.handleSubmit }>
           <input
-            id={ 'name' }
+            id={ 'registerName' }
             className={ 'register__input--text input--margin' }
             type='text'
             onClick={ this.handleClick }
@@ -107,9 +107,9 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             name='Imię'
             required
           />
-          <span id={ 'nameError' } className={ 'login-register__input--error' }></span>
+          <span id={ 'registerNameError' } className={ 'login-register__input--error' }></span>
           <input
-            id={ 'surname' }
+            id={ 'registerSurname' }
             className={ 'register__input--text input--margin' }
             type='text'
             onClick={ this.handleClick }
@@ -120,9 +120,9 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             name="Nazwisko"
             required
           />
-          <span id={ 'surnameError' } className={ 'login-register__input--error' }></span>
+          <span id={ 'registerSurnameError' } className={ 'login-register__input--error' }></span>
           <input
-            id={ 'mail' }
+            id={ 'registerMail' }
             className={ 'register__input--text input--margin' }
             type='text'
             onClick={ this.handleClick }
@@ -132,7 +132,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             placeholder='Adres email'
             required
           />
-          <span id={ 'mailError' } className={ 'login-register__input--error' }></span>
+          <span id={ 'registerMailError' } className={ 'login-register__input--error' }></span>
           <input
             id={ 'registerPassword' }
             className={ 'register__input--text input--margin' }
