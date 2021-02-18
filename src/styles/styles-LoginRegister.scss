@@ -5,6 +5,10 @@
   bottom: calc(60px - 200vh);
 }
 
+#login-register {
+  margin-left: -15%;
+}
+
 .login-register {
   &--background {
     @extend .info--background;

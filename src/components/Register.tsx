@@ -1,5 +1,5 @@
 import React from 'react';
-import { nameSurnameValidation, mailValidation, passwordValidation } from './Helpers';
+import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation } from './Helpers';
 
 interface nameTypes {
   value: string;
@@ -17,7 +17,15 @@ interface registerPasswordTypes {
   value: string;
 }
 
-export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, mail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes}> {
+interface registerCodeTypes {
+  value: string;
+}
+
+interface registerMessage {
+  
+}
+
+export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, mail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
   constructor(props: Readonly<{}>) {
     super(props);
     this.state = {
@@ -35,6 +43,9 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       },
       registerPassword2: {
         value: ''
+      },
+      registerCode: {
+        value: ''
       }
     };
 
@@ -51,6 +62,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       case 'registerMail' : this.setState({mail: {value: event.target.value}}); break;
       case 'registerPassword' : this.setState({registerPassword: {value: event.target.value}}); break;
       case 'registerPassword2' : this.setState({registerPassword2: {value: event.target.value}}); break;
+      case 'registerCode' : this.setState({registerCode: {value: event.target.value}}); break;
     }
   }
 
@@ -85,7 +97,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       }
     }
     if(event.target.id === 'registerPassword') {
-      let error = passwordValidation(event.target.value);
+      let error = registerPasswordValidation(event.target.value);
       if(error !== '') {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
@@ -99,6 +111,17 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       if(event.target.value !== this.state.registerPassword.value ) {
         event.target.classList.add('login-register__input--danger');
         document.getElementById(`${event.target.id}Error`)!.innerHTML = 'Hasła nie zgadzają się';
+      }
+      else {
+        event.target.classList.remove('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+      }
+    }
+    if(event.target.id === 'registerCode') {
+      let error = codeValidation(event.target.value);
+      if(error !== '') {
+        event.target.classList.add('login-register__input--danger');
+        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
       }
       else {
         event.target.classList.remove('login-register__input--danger');
@@ -177,7 +200,19 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             placeholder='Powtórz hasło'
             required
           />
-          <span id={ 'registerPassword2Error' } className={ 'login-register__input--error' }></span><br/>
+          <span id={ 'registerPassword2Error' } className={ 'login-register__input--error' }></span>
+          <input
+            id={ 'registerCode' }
+            className={ 'register__input--text input--margin' }
+            type='text'
+            onClick={ this.handleClick }
+            onChange={ this.handleChange }
+            onBlur={ this.handleBlur}
+            value={ this.state.registerCode.value }
+            placeholder='Kod zaproszenia'
+            required
+          />
+          <span id={ 'registerCodeError' } className={ 'login-register__input--error' }></span><br/>
           <input type="checkbox" required /><a className={ 'register__agreement--text' } href="https://www.youtube.com/watch?v=DLzxrzFCyOs" target='_blank' rel='noreferrer'> Akceptuję warunki umowy</a><br/>
           <input className={ 'input--margin register__button' } type="submit" value="Rejestracja" />
         </form>
