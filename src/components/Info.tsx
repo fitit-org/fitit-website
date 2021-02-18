@@ -11,13 +11,13 @@ export default class Info extends React.Component {
   render() {
     return (
       <div id={ 'info' } className={ 'info--background view--full-height' }>
-        <div id={ 'box' }>
-        <div id={'follow'} className={'items'}><img className={'pics'} src={ follow }/><p>Śledź wszystko</p></div>
-        <div id={'train'} className={'items'}><img className={'pics'} src={ train }/><p>Trenuj mądrze</p></div>
-        <div id={'activities'} className={'items'}><img className={'pics'} src={ monitor }/><p>Monitoruj aktywność</p></div>
-        <div id={'analyze'} className={'items'}><img className={'pics'} src={ analyze }/><p>Analizuj aktywność</p></div>
-        <div id={'notify'} className={'items'}><img className={'pics'} src={ notify }/><p>Ustawiaj powiadomienia</p></div>
-        <div id={'motivation'} className={'items'}><img className={'pics'} src={ motivation }/><p>Większa motywacja</p></div>
+        <div className={ 'box' }>
+        <div id={'box__items__follow'} className={'box__items'}><img className={'box__pics'} src={ follow } alt=""/><p>Śledź wszystko</p></div>
+        <div id={'box__items__train'} className={'box__items'}><img className={'box__pics'} src={ train } alt=""/><p>Trenuj mądrze</p></div>
+        <div id={'box__items__activities'} className={'box__items'}><img className={'box__pics'} src={ monitor } alt=""/><p>Monitoruj aktywność</p></div>
+        <div id={'box__items__analyze'} className={'box__items'}><img className={'box__pics'} src={ analyze } alt=""/><p>Analizuj aktywność</p></div>
+        <div id={'box__items__notify'} className={'box__items'}><img className={'box__pics'} src={ notify } alt=""/><p>Ustawiaj powiadomienia</p></div>
+        <div id={'box__items__motivation'} className={'box__items'}><img className={'box__pics'} src={ motivation } alt=""/><p>Większa motywacja</p></div>
         </div>
         <img className={ 'menu-info--bottom-right' } src={ menu } useMap="#menu" alt=""/>
         <map name="menu">
