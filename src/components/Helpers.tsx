@@ -39,7 +39,7 @@ export function registerPasswordValidation(fieldValue: string) : string {
 
 export function codeValidation(fieldValue: string) : string {
   if(fieldValue.trim() === '') {
-    return 'Kod jest wymagane';
+    return 'Kod jest wymagany';
   }
   if(/[^a-zA-Z0-9 -]/.test(fieldValue)) {
     return 'Wprowadzono nieprawidłowe znaki';
