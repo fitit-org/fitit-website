@@ -1,5 +1,6 @@
 import React from 'react';
-import { mailValidation } from './Helpers';
+import { mailValidation, handleErrors } from './Helpers';
+import Cookies from 'universal-cookie';
 
 interface mailTypes {
   value: string;
@@ -13,6 +14,8 @@ interface loginResponseTypes {
   status: number;
   message: string;
 }
+
+const cookies = new Cookies();
 
 export default class Login extends React.Component<{}, {loginMail: mailTypes, loginPassword: loginPasswordTypes, loginResponse: loginResponseTypes}> {
   constructor(props: Readonly<{}>) {
@@ -75,17 +78,20 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
         })
       };
       fetch('https://api.fitit.tk/auth/login', requestOptions)
-        .then(response => response.json())
-        .then(data => this.setState({
-          loginResponse: {
-            status: data.status,
-            message: data.message
-          }
-        }))
-        .catch(status  => {
-          document.getElementById('loginError')!.innerHTML = 'Błędne dane logowania';
-        }
-      );
+      .then(handleErrors)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('loginError')!.innerHTML = '';
+        console.log(data.status);
+        cookies.set('jwt', data.token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: true
+          });
+      })
+      .catch(() => {
+        document.getElementById('loginError')!.innerHTML = 'Wprowadzono złe hasło lub mail';
+      });
     }
   }
 
@@ -101,6 +107,7 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
           type='text'
           onClick={ this.handleClick }
           onChange={ this.handleChange }
+          onBlur={ this.handleBlur}
           value={ this.state.loginMail.value }
           placeholder='Adres email'
           required
@@ -112,7 +119,6 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
           type='password'
           onClick={ this.handleClick }
           onChange={ this.handleChange }
-          onBlur={ this.handleBlur}
           value={ this.state.loginPassword.value }
           placeholder='Hasło'
           required

@@ -21,10 +21,6 @@ interface registerCodeTypes {
   value: string;
 }
 
-interface registerMessage {
-  
-}
-
 export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, mail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
   constructor(props: Readonly<{}>) {
     super(props);

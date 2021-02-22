@@ -51,3 +51,10 @@ export function codeValidation(fieldValue: string) : string {
     return '';
   }
 }
+
+export function handleErrors(response: any) {
+  if(!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
