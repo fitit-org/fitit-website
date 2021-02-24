@@ -3,12 +3,14 @@ const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,32}$/;
 
+export const apiUrl = 'https://api.fitit.tk/';
+
 
 export function nameSurnameValidation(fieldName: string, fieldValue: string) : string {
   if(fieldValue.trim() === '') {
     return `${fieldName} jest wymagane`;
   }
-  if(/[^a-zA-Z -]/.test(fieldValue)) {
+  if(/[^a-zA-Z -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń]/.test(fieldValue)) {
     return 'Wprowadzono nieprawidłowe znaki';
   }
   if (fieldValue.trim().length < 3) {
@@ -30,7 +32,7 @@ export function mailValidation(fieldValue: string) : string {
 
 export function registerPasswordValidation(fieldValue: string) : string {
   if(!passwordRegex.test(fieldValue)) {
-    return 'Hasło musi zawierać minimum 8 znaków,<br />jedną dużą i małą literę, znak specjalny i cyfrę';
+    return 'Hasło musi zawierać minimum 10 znaków,<br />jedną dużą i małą literę, znak specjalny i cyfrę';
   }
   else {
     return '';
@@ -41,7 +43,7 @@ export function codeValidation(fieldValue: string) : string {
   if(fieldValue.trim() === '') {
     return 'Kod jest wymagany';
   }
-  if(/[^a-zA-Z0-9 -]/.test(fieldValue)) {
+  if(/[^a-zA-Z -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń]/.test(fieldValue)) {
     return 'Wprowadzono nieprawidłowe znaki';
   }
   if (fieldValue.trim().length < 3) {

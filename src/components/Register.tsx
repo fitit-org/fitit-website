@@ -1,5 +1,6 @@
 import React from 'react';
-import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation } from './Helpers';
+import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation, handleErrors, apiUrl } from './Helpers';
+import Cookies from 'universal-cookie';
 
 interface nameTypes {
   value: string;
@@ -21,7 +22,9 @@ interface registerCodeTypes {
   value: string;
 }
 
-export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, mail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
+const cookies = new Cookies();
+
+export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, registerMail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
   constructor(props: Readonly<{}>) {
     super(props);
     this.state = {
@@ -31,7 +34,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
       surname: {
         value: ''
       },
-      mail: {
+      registerMail: {
         value: ''
       },
       registerPassword: {
@@ -55,7 +58,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
     switch(event.target.id) {
       case 'registerName' : this.setState({name: {value: event.target.value}}); break;
       case 'registerSurname' : this.setState({surname: {value: event.target.value}}); break;
-      case 'registerMail' : this.setState({mail: {value: event.target.value}}); break;
+      case 'registerMail' : this.setState({registerMail: {value: event.target.value}}); break;
       case 'registerPassword' : this.setState({registerPassword: {value: event.target.value}}); break;
       case 'registerPassword2' : this.setState({registerPassword2: {value: event.target.value}}); break;
       case 'registerCode' : this.setState({registerCode: {value: event.target.value}}); break;
@@ -126,8 +129,34 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
     }
   }
 
-  handleSubmit(event: any): void {
-
+  handleSubmit(event: any) : void {
+    event.preventDefault();
+    if(mailValidation(this.state.registerMail.value) === '') {
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: this.state.registerMail.value,
+          password: this.state.registerPassword.value,
+          name: this.state.name.value,
+          surname: this.state.surname.value,
+          classId: this.state.registerCode.value
+        })
+      };
+      fetch(`${apiUrl}auth/register`, requestOptions)
+      .then(handleErrors)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('registerError')!.innerHTML = '';
+        cookies.set('jwt', data.token, {
+            // secure: true,
+            sameSite: true
+        });
+      })
+      .catch(() => {
+        document.getElementById('registerError')!.innerHTML = 'Podano złe dane';
+      });
+    }
   }
 
   render() {
@@ -147,7 +176,11 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             name='Imię'
             required
           />
-          <span id={ 'registerNameError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'registerNameError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
             id={ 'registerSurname' }
             className={ 'register__input--text input--margin' }
@@ -160,7 +193,11 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             name="Nazwisko"
             required
           />
-          <span id={ 'registerSurnameError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'registerSurnameError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
             id={ 'registerMail' }
             className={ 'register__input--text input--margin' }
@@ -168,11 +205,15 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             onClick={ this.handleClick }
             onChange={ this.handleChange }
             onBlur={ this.handleBlur}
-            value={ this.state.mail.value }
+            value={ this.state.registerMail.value }
             placeholder='Adres email'
             required
           />
-          <span id={ 'registerMailError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'registerMailError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
             id={ 'registerPassword' }
             className={ 'register__input--text input--margin' }
@@ -184,7 +225,11 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             placeholder='Hasło'
             required
           />
-          <span id={ 'registerPasswordError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'registerPasswordError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
             id={ 'registerPassword2' }
             className={ 'register__input--text input--margin' }
@@ -196,7 +241,11 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             placeholder='Powtórz hasło'
             required
           />
-          <span id={ 'registerPassword2Error' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'registerPassword2Error' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
             id={ 'registerCode' }
             className={ 'register__input--text input--margin' }
@@ -208,9 +257,34 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             placeholder='Kod zaproszenia'
             required
           />
-          <span id={ 'registerCodeError' } className={ 'login-register__input--error' }></span><br/>
-          <input type="checkbox" required /><a className={ 'register__agreement--text' } href="https://www.youtube.com/watch?v=DLzxrzFCyOs" target='_blank' rel='noreferrer'> Akceptuję warunki umowy</a><br/>
-          <input className={ 'input--margin register__button' } type="submit" value="Rejestracja" />
+          <span
+            id={ 'registerCodeError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
+          <br/>
+          <input
+            type="checkbox"
+            required
+          />
+          <a
+            className={ 'register__agreement--text' }
+            href="https://www.youtube.com/watch?v=DLzxrzFCyOs"
+            target='_blank' rel='noreferrer'
+          >
+            &nbsp;&nbsp;Akceptuję warunki umowy
+          </a>
+          <br/>
+          <span
+            id={ 'registerError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
+          <input
+            className={ 'input--margin register__button' }
+            type="submit"
+            value="Rejestracja"
+          />
         </form>
       </div>
     );

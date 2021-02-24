@@ -1,5 +1,5 @@
 import React from 'react';
-import { mailValidation, handleErrors } from './Helpers';
+import { mailValidation, handleErrors, apiUrl } from './Helpers';
 import Cookies from 'universal-cookie';
 
 interface mailTypes {
@@ -53,7 +53,7 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
   }
 
   handleBlur(event: any): void {
-    event.target.classList.remove('login-register__input--focus')
+    event.target.classList.remove('login-register__input--focus');
     if(event.target.id === 'loginMail') {
       let error = mailValidation(event.target.value);
       if(error !== '') {
@@ -67,7 +67,8 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
     }
   }
 
-  handleSubmit() {
+  handleSubmit(event: any) : void {
+    event.preventDefault();
     if(mailValidation(this.state.loginMail.value) === '') {
       const requestOptions = {
         method: 'POST',
@@ -77,15 +78,14 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
           password: this.state.loginPassword.value
         })
       };
-      fetch('https://api.fitit.tk/auth/login', requestOptions)
+      fetch(`${apiUrl}auth/login`, requestOptions)
       .then(handleErrors)
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         document.getElementById('loginError')!.innerHTML = '';
-        console.log(data.status);
         cookies.set('jwt', data.token, {
-            httpOnly: true,
-            secure: true,
+            // secure: true,
             sameSite: true
           });
       })
@@ -102,37 +102,55 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
         <span className={ 'login-register--header' }>Logowanie</span>
         <form className={ 'login-register__form' } onSubmit={ this.handleSubmit }>
           <input
-          id={ 'loginMail' }
-          className={ 'login__input--text input--margin' }
-          type='text'
-          onClick={ this.handleClick }
-          onChange={ this.handleChange }
-          onBlur={ this.handleBlur}
-          value={ this.state.loginMail.value }
-          placeholder='Adres email'
-          required
+            id={ 'loginMail' }
+            className={ 'login__input--text input--margin' }
+            type='text'
+            onClick={ this.handleClick }
+            onChange={ this.handleChange }
+            onBlur={ this.handleBlur}
+            value={ this.state.loginMail.value }
+            placeholder='Adres email'
+            required
           />
-          <span id={ 'loginMailError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'loginMailError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <input
-          id={ 'loginPassword' }
-          className={ 'login__input--text input--margin' }
-          type='password'
-          onClick={ this.handleClick }
-          onChange={ this.handleChange }
-          value={ this.state.loginPassword.value }
-          placeholder='Hasło'
-          required
+            id={ 'loginPassword' }
+            className={ 'login__input--text input--margin' }
+            type='password'
+            onClick={ this.handleClick }
+            onChange={ this.handleChange }
+            value={ this.state.loginPassword.value }
+            placeholder='Hasło'
+            required
           />
-          <span id={ 'loginPasswordError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'loginPasswordError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
           <br />
-          <a className={ 'login__forget--text' } href="#register" onClick={ ()=>{ alert('Skontaktuj się ze swoim nauczycielem'); } }>Nie pamiętasz hasła?</a><br/>
-
+          <a
+            className={ 'login__forget--text' }
+            href="#register"
+            onClick={ ()=>{ alert('Skontaktuj się ze swoim nauczycielem'); } }
+          >
+            Nie pamiętasz hasła?
+          </a>
+          <br/>
           <input
             className={ 'login__button input--margin' }
             type="submit"
             value="Zaloguj"
           />
-          <span id={ 'loginError' } className={ 'login-register__input--error' }></span>
+          <span
+            id={ 'loginError' }
+            className={ 'login-register__input--error' }
+          >
+          </span>
         </form>
       </div>
     );
