@@ -3,7 +3,7 @@ const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,32}$/;
 
-export const apiUrl = 'https://api.fitit.tk/';
+export const apiUrl = 'https://api.fitit.tk/api/v1';
 
 
 export function nameSurnameValidation(fieldName: string, fieldValue: string) : string {

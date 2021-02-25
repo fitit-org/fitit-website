@@ -1,6 +1,8 @@
 import React from 'react';
-import { mailValidation, handleErrors, apiUrl } from './Helpers';
 import Cookies from 'universal-cookie';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+
+import { mailValidation, handleErrors, apiUrl } from './Helpers';
 
 interface mailTypes {
   value: string;
@@ -10,15 +12,10 @@ interface loginPasswordTypes {
   value: string;
 }
 
-interface loginResponseTypes {
-  status: number;
-  message: string;
-}
-
 const cookies = new Cookies();
 
-export default class Login extends React.Component<{}, {loginMail: mailTypes, loginPassword: loginPasswordTypes, loginResponse: loginResponseTypes}> {
-  constructor(props: Readonly<{}>) {
+class Login extends React.Component<{} & RouteComponentProps, {loginMail: mailTypes, loginPassword: loginPasswordTypes}> {
+  constructor(props: any) {
     super(props);
     this.state = {
       loginMail: {
@@ -27,10 +24,6 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
       loginPassword: {
         value: ''
       },
-      loginResponse: {
-        status: 0,
-        message: ''
-      }
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -78,16 +71,25 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
           password: this.state.loginPassword.value
         })
       };
-      fetch(`${apiUrl}auth/login`, requestOptions)
+      fetch(`${apiUrl}/auth/login`, requestOptions)
       .then(handleErrors)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         document.getElementById('loginError')!.innerHTML = '';
         cookies.set('jwt', data.token, {
             // secure: true,
             sameSite: true
-          });
+        });
+        cookies.set('user', JSON.stringify(data.user), {
+          // secure: true,
+          sameSite: true
+        });
+        if(data.user.isTeacher === true) {
+          this.props.history.push('/teacher');
+        }
+        else if(data.user.isTeacher === false) {
+          this.props.history.push('/student');
+        }
       })
       .catch(() => {
         document.getElementById('loginError')!.innerHTML = 'Wprowadzono złe hasło lub mail';
@@ -156,3 +158,5 @@ export default class Login extends React.Component<{}, {loginMail: mailTypes, lo
     );
   }
 }
+
+export default withRouter(Login);

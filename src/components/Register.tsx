@@ -1,6 +1,7 @@
 import React from 'react';
 import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation, handleErrors, apiUrl } from './Helpers';
 import Cookies from 'universal-cookie';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface nameTypes {
   value: string;
@@ -24,8 +25,8 @@ interface registerCodeTypes {
 
 const cookies = new Cookies();
 
-export default class register extends React.Component<{}, {name: nameTypes, surname: surnameTypes, registerMail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
-  constructor(props: Readonly<{}>) {
+class Register extends React.Component<{} & RouteComponentProps, {name: nameTypes, surname: surnameTypes, registerMail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
+  constructor(props: any) {
     super(props);
     this.state = {
       name: {
@@ -143,7 +144,7 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
           classId: this.state.registerCode.value
         })
       };
-      fetch(`${apiUrl}auth/register`, requestOptions)
+      fetch(`${apiUrl}/auth/register`, requestOptions)
       .then(handleErrors)
       .then(response => response.json())
       .then(data => {
@@ -152,6 +153,16 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
             // secure: true,
             sameSite: true
         });
+        cookies.set('user', JSON.stringify(data.user), {
+          // secure: true,
+          sameSite: true
+        });
+        if(data.user.isTeacher === true) {
+          this.props.history.push('/teacher');
+        }
+        else if(data.user.isTeacher === false) {
+          this.props.history.push('/student');
+        }
       })
       .catch(() => {
         document.getElementById('registerError')!.innerHTML = 'Podano złe dane';
@@ -290,3 +301,5 @@ export default class register extends React.Component<{}, {name: nameTypes, surn
     );
   }
 }
+
+export default withRouter(Register);
