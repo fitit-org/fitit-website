@@ -8,6 +8,8 @@
 @import 'styles-Info';
 @import 'styles-LoginRegister';
 @import 'styles-Contact';
+@import 'styles-StudentPanel.scss';
+@import 'styles-TeacherPanel';
 
 html {
     scroll-behavior: smooth;
@@ -19,7 +21,8 @@ html {
         border: none;
         box-shadow: none;
         outline: none;
-        border-bottom: 1.5px solid #0000002E;
+        border-bottom: 1.5px solid;
+        border-image: linear-gradient(245deg, #037BE9BA 0%, #F700CABD 100%) 1;
     }
 }
 

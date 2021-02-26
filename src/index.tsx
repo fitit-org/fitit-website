@@ -17,31 +17,38 @@ const cookies = new Cookies();
 
 class App extends React.Component {
   checkUser(token: string | undefined) : void {
-    const requestOptions = {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      }
-    };
-    fetch(`${apiUrl}/user`, requestOptions)
-    .then(handleErrors)
-    .then(response => response.json())
-    .then(response => {
-      if(response.email === cookies.get('user').email) {
-        if(response.isTeacher === true && window.location.pathname !== '/teacher') {
-          window.location.pathname = '/teacher';
+    if(token !== undefined) {
+      const requestOptions = {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
         }
-        else if(response.isTeacher === false && window.location.pathname !== '/student') {
-          window.location.pathname = '/student';
+      };
+      fetch(`${apiUrl}/user`, requestOptions)
+      .then(handleErrors)
+      .then(response => response.json())
+      .then(response => {
+        if(response.email === cookies.get('user').email) {
+          if(response.isTeacher === true && window.location.pathname !== '/teacher') {
+            window.location.pathname = '/teacher';
+          }
+          else if(response.isTeacher === false && window.location.pathname !== '/student') {
+            window.location.pathname = '/student';
+          }
         }
-      }
-    })
-    .catch(() => {
+      })
+      .catch(() => {
+        if(window.location.pathname !== '/') {
+          window.location.pathname = '/';
+        }
+      });
+    }
+    else {
       if(window.location.pathname !== '/') {
         window.location.pathname = '/';
       }
-    });
+    }
   }
   render() {
     this.checkUser(cookies.get('jwt'));

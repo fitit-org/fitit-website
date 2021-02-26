@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-control-regex
 const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{10,32}$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{10,32}$/;
+
 
 export const apiUrl = 'https://api.fitit.tk/api/v1';
 
@@ -43,7 +44,7 @@ export function codeValidation(fieldValue: string) : string {
   if(fieldValue.trim() === '') {
     return 'Kod jest wymagany';
   }
-  if(/[^a-zA-Z -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń]/.test(fieldValue)) {
+  if(/[^a-zA-Z0-9 -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń]/.test(fieldValue)) {
     return 'Wprowadzono nieprawidłowe znaki';
   }
   if (fieldValue.trim().length < 3) {
@@ -54,7 +55,7 @@ export function codeValidation(fieldValue: string) : string {
   }
 }
 
-export function handleErrors(response: any) {
+export function handleErrors(response: Response) : Response {
   if(!response.ok) {
     throw Error(response.statusText);
   }

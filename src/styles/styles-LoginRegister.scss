@@ -15,10 +15,21 @@
   }
 
   &--header {
+    display: block;
     font-size: $header-size;
     color: $header-color;
     text-align: center;
     letter-spacing: 3px;
+    margin-bottom: 30px;
+  }
+
+  &--header::after {
+    display: block;
+    content: "";
+    margin: -5px auto;
+    border-bottom: 3.5px solid;
+    border-image: linear-gradient(245deg, #037BE9BA 0%, #F700CABD 100%) 1;
+    width: 60%;
   }
 
   &__input {

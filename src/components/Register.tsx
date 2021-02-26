@@ -1,7 +1,10 @@
 import React from 'react';
-import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation, handleErrors, apiUrl } from './Helpers';
 import Cookies from 'universal-cookie';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+
+import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation, handleErrors, apiUrl } from './Helpers';
+
+
 
 interface nameTypes {
   value: string;
@@ -132,7 +135,7 @@ class Register extends React.Component<{} & RouteComponentProps, {name: nameType
 
   handleSubmit(event: any) : void {
     event.preventDefault();
-    if(mailValidation(this.state.registerMail.value) === '') {
+    if(nameSurnameValidation('Imię', this.state.name.value) === '' && nameSurnameValidation('Nazwisko', this.state.surname.value) === '' && mailValidation(this.state.registerMail.value) === '' && registerPasswordValidation(this.state.registerPassword.value) === '' && this.state.registerPassword.value === this.state.registerPassword2.value && codeValidation(this.state.registerCode.value) === '') {
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

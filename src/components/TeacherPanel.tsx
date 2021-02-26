@@ -7,8 +7,12 @@ export default class Contact extends React.Component<{ title: string }, {}> {
 
   render() {
     return (
-      <div>
-        Panel nauczyciela
+      <div className={ 'view--full-height student-panel--background' }>
+        <div
+          className={ 'student-panel__header' }
+        >
+
+        </div>
       </div>
     );
   }
