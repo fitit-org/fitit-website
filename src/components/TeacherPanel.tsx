@@ -1,19 +1,15 @@
-import React from 'react';
+import React from 'react'
+import { Helmet } from 'react-helmet'
 
-export default class Contact extends React.Component<{ title: string }, {}> {
-  componentDidMount() {
-    document.title = this.props.title
-  }
-
-  render() {
+export default class Contact extends React.Component<{ title: string }> {
+  render(): React.ReactElement {
     return (
-      <div className={ 'view--full-height student-panel--background' }>
-        <div
-          className={ 'student-panel__header' }
-        >
-
-        </div>
+      <div className={'view--full-height student-panel--background'}>
+        <Helmet>
+          <title>{this.props.title}</title>
+        </Helmet>
+        <div className={'student-panel__header'}></div>
       </div>
-    );
+    )
   }
 }
