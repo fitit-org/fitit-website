@@ -4,7 +4,7 @@ const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{10,32}$/;
 
 
-export const apiUrl = 'https://api.fitit.tk/api/v1';
+export const apiUrl = process.env.REACT_APP_API_URL;
 
 
 export function nameSurnameValidation(fieldName: string, fieldValue: string) : string {
