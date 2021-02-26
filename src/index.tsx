@@ -1,66 +1,28 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Cookies from 'universal-cookie'
 
-import MainView from './components/MainView'
-import Info from './components/Info'
-import LoginRegister from './components/LoginRegister'
-import Contact from './components/Contact'
-import TeacherPanel from './components/TeacherPanel'
-import StudentPanel from './components/StudentPanel'
-import { apiUrl, handleErrors } from './components/Helpers'
+import MainView from './views/MainView'
+import Info from './views/Info'
+import LoginRegister from './views/LoginRegister'
+import Contact from './views/Contact'
+import TeacherPanel from './views/TeacherPanel'
+import StudentPanel from './views/StudentPanel'
+import ProvideAuth from './components/ProvideAuth'
+import StudentRoute from './components/StudentRoute'
+import TeacherRoute from './components/TeacherRoute'
 
-import 'dotenv/config'
 import validateEnv from './utils/validateEnv'
 
 import './styles/main.scss'
 
-validateEnv()
-const cookies = new Cookies()
+console.log(process.env)
 
-class App extends React.Component {
-  checkUser(token: string | undefined): void {
-    if (token !== undefined) {
-      const requestOptions = {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-      }
-      fetch(`${apiUrl}/user`, requestOptions)
-        .then(handleErrors)
-        .then((response) => response.json())
-        .then((response) => {
-          if (response.email === cookies.get('user').email) {
-            if (
-              response.isTeacher === true &&
-              window.location.pathname !== '/teacher'
-            ) {
-              window.location.pathname = '/teacher'
-            } else if (
-              response.isTeacher === false &&
-              window.location.pathname !== '/student'
-            ) {
-              window.location.pathname = '/student'
-            }
-          }
-        })
-        .catch(() => {
-          if (window.location.pathname !== '/') {
-            window.location.pathname = '/'
-          }
-        })
-    } else {
-      if (window.location.pathname !== '/') {
-        window.location.pathname = '/'
-      }
-    }
-  }
-  render() {
-    this.checkUser(cookies.get('jwt'))
-    return (
+validateEnv()
+
+const App = (): JSX.Element => {
+  return (
+    <ProvideAuth>
       <BrowserRouter>
         <Switch>
           <Route
@@ -75,18 +37,16 @@ class App extends React.Component {
               </div>
             )}
           />
-          <Route
-            path="/teacher"
-            render={() => <TeacherPanel title="Panel nauczyciela | Fit IT" />}
-          />
-          <Route
-            path="/student"
-            render={() => <StudentPanel title="Panel ucznia | Fit IT" />}
-          />
+          <TeacherRoute path="/teacher">
+            <TeacherPanel title="Panel nauczyciela | Fit IT" />
+          </TeacherRoute>
+          <StudentRoute path="/student">
+            <StudentPanel title="Panel ucznia | Fit IT" />
+          </StudentRoute>
         </Switch>
       </BrowserRouter>
-    )
-  }
+    </ProvideAuth>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))

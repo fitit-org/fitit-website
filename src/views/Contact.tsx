@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { mailRegex } from './Helpers'
+import { mailRegex } from '../components/Helpers'
 import { useForm } from 'react-hook-form'
 
 import menu from '../img/contact/contactMenu.svg'
@@ -11,7 +11,9 @@ type ContactData = {
 }
 
 const Contact = (): JSX.Element => {
-  const { register, errors, handleSubmit } = useForm<ContactData>()
+  const { register, errors, handleSubmit } = useForm<ContactData>({
+    mode: 'onBlur',
+  })
 
   const onSubmit = handleSubmit(({ name, contactMail }) => {
     console.log(name, contactMail)
@@ -53,7 +55,13 @@ const Contact = (): JSX.Element => {
           <input
             id={'contactMail'}
             className={'contactBox__form__input--text input--margin'}
-            ref={register({ required: true, pattern: mailRegex })}
+            ref={register({
+              required: 'Adres email jest wymagany',
+              pattern: {
+                value: mailRegex,
+                message: 'Należy wprowadzić prawidłowy adres email',
+              },
+            })}
             type="text"
             placeholder="Adres email"
             name="contactMail"

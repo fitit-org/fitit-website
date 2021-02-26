@@ -3,6 +3,7 @@ const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~
 export { mailRegex }
 
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{10,32}$/
+export { passwordRegex }
 
 export const apiUrl = process.env.API_URL
 

@@ -1,9 +1,7 @@
-import { cleanEnv, ValidatorSpec, url } from 'envalid'
-
-const env: { [x: string]: ValidatorSpec<unknown> } = {
-  API_URL: url(),
-}
+import { cleanEnv, url } from 'envalid'
 
 export default function validateEnv(): void {
-  cleanEnv(process.env, env)
+  cleanEnv(process.env, {
+    REACT_APP_API_URL: url(),
+  })
 }
