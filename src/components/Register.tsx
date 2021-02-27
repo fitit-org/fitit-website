@@ -1,308 +1,215 @@
-import React from 'react';
-import Cookies from 'universal-cookie';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import React, { useState } from 'react'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
+import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 
-import { nameSurnameValidation, mailValidation, registerPasswordValidation, codeValidation, handleErrors, apiUrl } from './Helpers';
+import { mailRegex, passwordRegex } from './Helpers'
+import { useAuth } from '../hooks/use-auth'
 
-
-
-interface nameTypes {
-  value: string;
+type RegisterData = {
+  name: string
+  surname: string
+  email: string
+  password: string
+  passwordRepeated: string
+  code: string
 }
 
-interface surnameTypes {
-  value: string;
-}
+const Register = ({ history }: RouteComponentProps): JSX.Element => {
+  const { register, errors, handleSubmit, getValues } = useForm<RegisterData>({
+    mode: 'onBlur',
+  })
+  const [registerError, setRegisterError] = useState(false)
+  const auth = useAuth()
 
-interface mailTypes {
-  value: string;
-}
-
-interface registerPasswordTypes {
-  value: string;
-}
-
-interface registerCodeTypes {
-  value: string;
-}
-
-const cookies = new Cookies();
-
-class Register extends React.Component<{} & RouteComponentProps, {name: nameTypes, surname: surnameTypes, registerMail: mailTypes, registerPassword: registerPasswordTypes, registerPassword2: registerPasswordTypes, registerCode: registerCodeTypes}> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      name: {
-        value: ''
-      },
-      surname: {
-        value: ''
-      },
-      registerMail: {
-        value: ''
-      },
-      registerPassword: {
-        value: ''
-      },
-      registerPassword2: {
-        value: ''
-      },
-      registerCode: {
-        value: ''
+  const onSubmit: SubmitHandler<RegisterData> = async (
+    { name, surname, email, password, passwordRepeated, code },
+    e
+  ) => {
+    e?.preventDefault()
+    try {
+      await auth.signup(name, surname, email, password, code)
+      if (auth.user.isTeacher) {
+        history.push('/teacher')
+      } else {
+        history.push('/student')
       }
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event: any): void {
-    switch(event.target.id) {
-      case 'registerName' : this.setState({name: {value: event.target.value}}); break;
-      case 'registerSurname' : this.setState({surname: {value: event.target.value}}); break;
-      case 'registerMail' : this.setState({registerMail: {value: event.target.value}}); break;
-      case 'registerPassword' : this.setState({registerPassword: {value: event.target.value}}); break;
-      case 'registerPassword2' : this.setState({registerPassword2: {value: event.target.value}}); break;
-      case 'registerCode' : this.setState({registerCode: {value: event.target.value}}); break;
+    } catch (err) {
+      setRegisterError(true)
     }
   }
 
-  handleClick(event: any): void {
-    event.target.classList.add('login-register__input--focus');
-    event.target.classList.remove('login-register__input--danger');
-    document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
+  const onError: SubmitErrorHandler<RegisterData> = (errors) => {
+    setRegisterError(true)
   }
 
-  handleBlur(event: any): void {
-    event.target.classList.remove('login-register__input--focus');
-    if(event.target.id === 'registerName' || event.target.id === 'registerSurname') {
-      let error = nameSurnameValidation(event.target.name, event.target.value);
-      if(error !== '') {
-        event.target.classList.add('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
-      }
-      else {
-        event.target.classList.remove('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
-      }
-    }
-    if(event.target.id === 'registerMail') {
-      let error = mailValidation(event.target.value);
-      if(error !== '') {
-        event.target.classList.add('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
-      }
-      else {
-        event.target.classList.remove('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
-      }
-    }
-    if(event.target.id === 'registerPassword') {
-      let error = registerPasswordValidation(event.target.value);
-      if(error !== '') {
-        event.target.classList.add('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
-      }
-      else {
-        event.target.classList.remove('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
-      }
-    }
-    if(event.target.id === 'registerPassword2') {
-      if(event.target.value !== this.state.registerPassword.value ) {
-        event.target.classList.add('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = 'Hasła nie zgadzają się';
-      }
-      else {
-        event.target.classList.remove('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
-      }
-    }
-    if(event.target.id === 'registerCode') {
-      let error = codeValidation(event.target.value);
-      if(error !== '') {
-        event.target.classList.add('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = error;
-      }
-      else {
-        event.target.classList.remove('login-register__input--danger');
-        document.getElementById(`${event.target.id}Error`)!.innerHTML = '';
-      }
-    }
-  }
-
-  handleSubmit(event: any) : void {
-    event.preventDefault();
-    if(nameSurnameValidation('Imię', this.state.name.value) === '' && nameSurnameValidation('Nazwisko', this.state.surname.value) === '' && mailValidation(this.state.registerMail.value) === '' && registerPasswordValidation(this.state.registerPassword.value) === '' && this.state.registerPassword.value === this.state.registerPassword2.value && codeValidation(this.state.registerCode.value) === '') {
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: this.state.registerMail.value,
-          password: this.state.registerPassword.value,
-          name: this.state.name.value,
-          surname: this.state.surname.value,
-          classId: this.state.registerCode.value
-        })
-      };
-      fetch(`${apiUrl}/auth/register`, requestOptions)
-      .then(handleErrors)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('registerError')!.innerHTML = '';
-        cookies.set('jwt', data.token, {
-            // secure: true,
-            sameSite: true
-        });
-        cookies.set('user', JSON.stringify(data.user), {
-          // secure: true,
-          sameSite: true
-        });
-        if(data.user.isTeacher === true) {
-          this.props.history.push('/teacher');
-        }
-        else if(data.user.isTeacher === false) {
-          this.props.history.push('/student');
-        }
-      })
-      .catch(() => {
-        document.getElementById('registerError')!.innerHTML = 'Podano złe dane';
-      });
-    }
-  }
-
-  render() {
-    return (
-      <div className={ 'register' }>
-        <span className={ 'login-register--header' }>Rejestracja</span>
-        <form className={ 'login-register__form' } onSubmit={ this.handleSubmit }>
-          <input
-            id={ 'registerName' }
-            className={ 'register__input--text input--margin' }
-            type='text'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.name.value }
-            placeholder='Imię'
-            name='Imię'
-            required
-          />
-          <span
-            id={ 'registerNameError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            id={ 'registerSurname' }
-            className={ 'register__input--text input--margin' }
-            type='text'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.surname.value }
-            placeholder='Nazwisko'
-            name="Nazwisko"
-            required
-          />
-          <span
-            id={ 'registerSurnameError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            id={ 'registerMail' }
-            className={ 'register__input--text input--margin' }
-            type='text'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.registerMail.value }
-            placeholder='Adres email'
-            required
-          />
-          <span
-            id={ 'registerMailError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            id={ 'registerPassword' }
-            className={ 'register__input--text input--margin' }
-            type='password'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.registerPassword.value }
-            placeholder='Hasło'
-            required
-          />
-          <span
-            id={ 'registerPasswordError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            id={ 'registerPassword2' }
-            className={ 'register__input--text input--margin' }
-            type='password'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.registerPassword2.value }
-            placeholder='Powtórz hasło'
-            required
-          />
-          <span
-            id={ 'registerPassword2Error' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            id={ 'registerCode' }
-            className={ 'register__input--text input--margin' }
-            type='text'
-            onClick={ this.handleClick }
-            onChange={ this.handleChange }
-            onBlur={ this.handleBlur}
-            value={ this.state.registerCode.value }
-            placeholder='Kod zaproszenia'
-            required
-          />
-          <span
-            id={ 'registerCodeError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <br/>
-          <input
-            type="checkbox"
-            required
-          />
-          <a
-            className={ 'register__agreement--text' }
-            href="https://www.youtube.com/watch?v=DLzxrzFCyOs"
-            target='_blank' rel='noreferrer'
-          >
-            &nbsp;&nbsp;Akceptuję warunki umowy
-          </a>
-          <br/>
-          <span
-            id={ 'registerError' }
-            className={ 'login-register__input--error' }
-          >
-          </span>
-          <input
-            className={ 'input--margin register__button' }
-            type="submit"
-            value="Rejestracja"
-          />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className={'register'}>
+      <span className={'login-register--header'}>Rejestracja</span>
+      <form
+        className={'login-register__form'}
+        onSubmit={handleSubmit(onSubmit, onError)}
+      >
+        <input
+          id="registerName"
+          className={'register__input--text input--margin'}
+          type="text"
+          ref={register({
+            required: 'Należy podać imię',
+            minLength: {
+              value: 3,
+              message: 'Imię musi składać się z co najmniej 3 znaków',
+            },
+            pattern: {
+              value: /(?![^a-zA-Z -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń])/,
+              message: 'Wprowadzono niedozwolone znaki',
+            },
+          })}
+          placeholder="Imię"
+          name="name"
+          required
+        />
+        <span
+          id={'registerNameError'}
+          className={'login-register__input--error'}
+        >
+          {errors.name && errors.name.message}
+        </span>
+        <input
+          id="registerSurname"
+          className={'register__input--text input--margin'}
+          type="text"
+          ref={register({
+            required: 'Należy podać nazwisko',
+            minLength: {
+              value: 3,
+              message: 'Nazwisko musi składać się z co najmniej 3 znaków',
+            },
+            pattern: {
+              value: /(?![^a-zA-Z -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń])/,
+              message: 'Wprowadzono niedozwolone znaki',
+            },
+          })}
+          placeholder="Nazwisko"
+          name="surname"
+          required
+        />
+        <span
+          id={'registerSurnameError'}
+          className={'login-register__input--error'}
+        >
+          {errors.surname && errors.surname.message}
+        </span>
+        <input
+          id="registerMail"
+          className={'register__input--text input--margin'}
+          type="text"
+          ref={register({
+            required: 'Należy podać adres email',
+            pattern: {
+              value: mailRegex,
+              message: 'Wprowadzono niepoprawny adres email',
+            },
+          })}
+          name="email"
+          placeholder="Adres email"
+          required
+        />
+        <span
+          id={'registerMailError'}
+          className={'login-register__input--error'}
+        >
+          {errors.email && errors.email.message}
+        </span>
+        <input
+          id="registerPassword"
+          className={'register__input--text input--margin'}
+          type="password"
+          ref={register({
+            required: 'Należy podać hasło',
+            pattern: {
+              value: passwordRegex,
+              message:
+                'Hasło musi składać się z co najmniej 10 znaków, małej i wielkiej litery, cyfry i znaku specjalnego',
+            },
+          })}
+          name="password"
+          placeholder="Hasło"
+          required
+        />
+        <span
+          id={'registerPasswordError'}
+          className={'login-register__input--error'}
+        >
+          {errors.password && errors.password.message}
+        </span>
+        <input
+          id="registerPasswordRepeated"
+          className={'register__input--text input--margin'}
+          type="password"
+          ref={register({
+            required: 'Należy powtórzyć wprowadzone hasło',
+            validate: {
+              sameAs: (value) =>
+                value === getValues('password') || 'Hasła muszą być takie same',
+            },
+          })}
+          name="passwordRepeated"
+          placeholder="Powtórz hasło"
+          required
+        />
+        <span
+          id={'registerPassword2Error'}
+          className={'login-register__input--error'}
+        >
+          {errors.passwordRepeated && errors.passwordRepeated.message}
+        </span>
+        <input
+          id="registerCode"
+          className={'register__input--text input--margin'}
+          type="text"
+          name="code"
+          ref={register({
+            required: 'Należy podać kod zaproszenia',
+            pattern: {
+              value: /(?![^a-zA-Z0-9 -,-,ę,ß,ó,ą,ś,ł,ż,ź,ć,ń])/,
+              message: 'Wprowadzono niedozwolone znaki',
+            },
+            minLength: {
+              value: 3,
+              message: 'Kod musi się składać z co najmniej 3 znaków',
+            },
+          })}
+          placeholder="Kod zaproszenia"
+          required
+        />
+        <span
+          id={'registerCodeError'}
+          className={'login-register__input--error'}
+        >
+          {errors.code && errors.code.message}
+        </span>
+        <br />
+        <input type="checkbox" required />
+        <a
+          className={'register__agreement--text'}
+          href="https://www.youtube.com/watch?v=DLzxrzFCyOs"
+          target="_blank"
+          rel="noreferrer"
+        >
+          &nbsp;&nbsp;Akceptuję warunki umowy
+        </a>
+        <br />
+        <span id={'registerError'} className={'login-register__input--error'}>
+          {registerError ? 'Wystąpił błąd przy rejestracji' : ''}
+        </span>
+        <input
+          className={'input--margin register__button'}
+          type="submit"
+          value="Rejestracja"
+        />
+      </form>
+    </div>
+  )
 }
 
-export default withRouter(Register);
+export default withRouter(Register)
