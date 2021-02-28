@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { login, register, getUser } from '../services/APIService'
 import { authContext } from '../hooks/use-auth'
 import { User } from '../types/User'
+import { rejects } from 'assert'
 
 const ProvideAuth = ({
   children,
@@ -19,16 +20,13 @@ function useProvideAuth() {
   const signin = async (email: string, password: string) => {
     return new Promise<void>((resolve, reject) => {
       login({ email: email, password: password })
-        .catch((err) => {
-          reject(err)
-          throw new Error(err)
-        })
         .then((data) => {
           setUser(data.user)
           localStorage.setItem('token', data.token)
           setToken(data.token)
           resolve()
         })
+        .catch((err) => reject(err))
     })
   }
 
@@ -39,31 +37,35 @@ function useProvideAuth() {
     password: string,
     code: string
   ) => {
-    register({
-      name: name,
-      surname: surname,
-      email: email,
-      password: password,
-      code: code,
+    return new Promise<void>((resolve, reject) => {
+      register({
+        name: name,
+        surname: surname,
+        email: email,
+        password: password,
+        code: code,
+      })
+        .then((data) => {
+          setUser(data.user)
+          localStorage.setItem('token', data.token)
+          setToken(data.token)
+          resolve()
+        })
+        .catch((err) => rejects(err))
     })
-      .catch((err) => {
-        throw new Error(err)
-      })
-      .then((data) => {
-        setUser(data.user)
-        localStorage.setItem('token', data.token)
-        setToken(data.token)
-      })
   }
 
-  const getUserData = async (token: string) => {
-    getUser(token)
-      .catch((err) => {
-        throw new Error(err)
-      })
-      .then((data) => {
-        setUser(data)
-      })
+  const getUserData = async () => {
+    return new Promise<void>((resolve, reject) => {
+      getUser(token)
+        .then((data) => {
+          setUser(data)
+          resolve()
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
   }
 
   const logout = () => {
@@ -74,6 +76,7 @@ function useProvideAuth() {
 
   useEffect(() => {
     if (Object.keys(user).length === 0 && token !== '') {
+      console.log('trying to get user via token')
       try {
         getUserData(token)
       } catch (err) {
