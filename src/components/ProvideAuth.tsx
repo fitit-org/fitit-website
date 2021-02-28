@@ -78,7 +78,7 @@ function useProvideAuth() {
     if (Object.keys(user).length === 0 && token !== '') {
       console.log('trying to get user via token')
       try {
-        getUserData(token)
+        getUserData()
       } catch (err) {
         logout()
       }
