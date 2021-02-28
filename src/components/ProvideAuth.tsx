@@ -56,7 +56,7 @@ function useProvideAuth() {
       })
   }
 
-  const getUserData = async () => {
+  const getUserData = async (token: string) => {
     getUser(token)
       .catch((err) => {
         throw new Error(err)
@@ -73,9 +73,9 @@ function useProvideAuth() {
   }
 
   useEffect(() => {
-    if (!user && token !== '') {
+    if (Object.keys(user).length === 0 && token !== '') {
       try {
-        getUserData()
+        getUserData(token)
       } catch (err) {
         logout()
       }

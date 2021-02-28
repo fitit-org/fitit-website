@@ -33,7 +33,7 @@ async function fetchAndCatch(
   }
   if (token !== '') {
     requestOptions.headers = {
-      Authorization: `Bearer: ${token}`,
+      Authorization: `Bearer ${token}`,
       ...requestOptions.headers,
     }
   }
