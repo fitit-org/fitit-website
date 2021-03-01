@@ -7,7 +7,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.7.3",
+    "@testing-library/user-event": "^12.8.0",
     "autoprefixer": "^9.8.6",
     "dotenv": "^8.2.0",
     "dotenv-cra": "^2.0.2",
@@ -29,8 +29,13 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "lint": "eslint --ext .tsx --ext .ts src/",
+    "lint:fix": "eslint --ext .tsx --ext .ts src/ --fix",
     "eject": "react-scripts eject",
     "postbuild": "react-snap"
+  },
+  "reactSnap": {
+    "inlineCss": true
   },
   "browserslist": {
     "production": [
@@ -55,7 +60,7 @@
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
-    "eslint": "^7.20.0",
+    "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
