@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { login, register, getUser } from '../services/APIService'
+import { register, login } from '../services/APIService'
 import { authContext } from '../hooks/use-auth'
-import { User } from '../types/User'
-import { rejects } from 'assert'
+import User from '../types/User'
+import { store } from '../store/store'
+import { getUserAsync, logOut, setState } from '../store/user'
 
 const ProvideAuth = ({
   children,
@@ -14,19 +15,26 @@ const ProvideAuth = ({
 }
 
 function useProvideAuth() {
-  const [user, setUser] = useState<Partial<User>>({})
-  const [token, setToken] = useState(localStorage.getItem('token') || '')
+  const [user, setUser] = useState<Partial<User>>(
+    store.getState().user.user || {}
+  )
+  const [token, setToken] = useState(
+    store.getState().user.token || localStorage.getItem('token') || ''
+  )
 
   const signin = async (email: string, password: string) => {
     return new Promise<void>((resolve, reject) => {
       login({ email: email, password: password })
         .then((data) => {
           setUser(data.user)
-          localStorage.setItem('token', data.token)
           setToken(data.token)
+          localStorage.setItem('token', data.token)
+          store.dispatch(setState(data))
           resolve()
         })
-        .catch((err) => reject(err))
+        .catch((err) => {
+          reject()
+        })
     })
   }
 
@@ -46,25 +54,13 @@ function useProvideAuth() {
         code: code,
       })
         .then((data) => {
+          store.dispatch(setState(data))
           setUser(data.user)
           localStorage.setItem('token', data.token)
           setToken(data.token)
           resolve()
         })
-        .catch((err) => rejects(err))
-    })
-  }
-
-  const getUserData = async () => {
-    return new Promise<void>((resolve, reject) => {
-      getUser(token)
-        .then((data) => {
-          setUser(data)
-          resolve()
-        })
-        .catch((err) => {
-          reject(err)
-        })
+        .catch((err) => reject(err))
     })
   }
 
@@ -72,19 +68,21 @@ function useProvideAuth() {
     setUser({})
     localStorage.removeItem('token')
     setToken('')
+    store.dispatch(logOut())
   }
 
   useEffect(() => {
     if (Object.keys(user).length === 0 && token !== '') {
-      console.log('trying to get user via token')
       try {
-        getUserData()
+        store.dispatch(getUserAsync())
+        setUser(store.getState().user.user)
+        setToken(store.getState().user.token)
       } catch (err) {
         logout()
       }
     }
-    return
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
     user,

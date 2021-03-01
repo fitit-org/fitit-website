@@ -8,9 +8,7 @@ const LoginRegister = (): JSX.Element => {
     <div className={'info--background view--full-height'}>
       <div
         id={'login-register'}
-        className={
-          'view--full-height flex flex-row flex-nowrap justify-center items-center'
-        }
+        className={'view--full-height login-register__container'}
       >
         <Login />
         <hr className={'hr--vertical'} />

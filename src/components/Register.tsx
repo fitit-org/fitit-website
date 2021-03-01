@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 
-import { mailRegex, passwordRegex } from './Helpers'
+import { mailRegex, passwordRegex } from '../utils/helpers'
 import { useAuth } from '../hooks/use-auth'
 
 type RegisterData = {

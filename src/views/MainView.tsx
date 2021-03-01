@@ -18,9 +18,7 @@ const MainView = (): JSX.Element => {
 
   return (
     <div id={'main-view'} className={'view--full-height main-view--background'}>
-      <div
-        className={'absolute right-6 top-5 text-2xl tracking-wide text-white'}
-      >
+      <div className={'main-view--topmenu'}>
         <p className={'text--shadow'}>
           <a href={'#login-register'}>Zaloguj się</a> &bull;{' '}
           <a href={'#login-register'}>Zarejestruj się</a>

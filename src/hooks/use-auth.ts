@@ -1,5 +1,5 @@
 import { useContext, createContext } from 'react'
-import { User } from '../types/User'
+import User from '../types/User'
 
 interface ContextProps {
   user: Partial<User>

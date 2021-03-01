@@ -1,16 +1,8 @@
-import { ActivityType, ActivityTypeDTO } from './ActivityType'
-import { ObjectId } from 'bson'
+import { ActivityType } from './ActivityType'
 
-export interface ActivityLog {
-  _id: ObjectId
-  activityType_id: ObjectId | ActivityType
-  startDate: Date
-  endDate?: Date
-}
-
-export interface ActivityLogDTO {
+export default interface ActivityLog {
   _id: string
-  activityType_id: string | ActivityTypeDTO
+  activityType_id: string | ActivityType
   startDate: string
   endDate?: string
 }

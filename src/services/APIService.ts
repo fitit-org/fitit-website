@@ -1,7 +1,6 @@
 import LoginDTO from '../types/login.dto'
 import RegisterDTO from '../types/register.dto'
-import { UserDTO, User } from '../types/User'
-import { deserializeUser } from '../utils/deserializer'
+import User from '../types/User'
 
 const URI = process.env.REACT_APP_API_URL
 
@@ -54,7 +53,7 @@ export async function login(dto: LoginDTO): Promise<AuthResponse> {
   return fetchAndCatch(FetchMethod.POST, `${URI}/auth/login`, dto).then(
     (obj) => {
       return {
-        user: deserializeUser(obj.user as UserDTO),
+        user: obj.user as User,
         token: obj.token as string,
       }
     }
@@ -65,7 +64,7 @@ export async function register(dto: RegisterDTO): Promise<AuthResponse> {
   return fetchAndCatch(FetchMethod.POST, `${URI}/auth/register`, dto).then(
     (obj) => {
       return {
-        user: deserializeUser(obj.user as UserDTO),
+        user: obj.user as User,
         token: obj.token as string,
       }
     }
@@ -79,6 +78,6 @@ export async function getUser(token: string): Promise<User> {
     undefined,
     token
   ).then((obj) => {
-    return deserializeUser((obj as unknown) as UserDTO)
+    return (obj as unknown) as User
   })
 }

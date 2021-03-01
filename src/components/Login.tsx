@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useHistory, withRouter } from 'react-router-dom'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
-import { mailRegex } from './Helpers'
+import { mailRegex } from '../utils/helpers'
 import { useAuth } from '../hooks/use-auth'
 
 type LoginData = {

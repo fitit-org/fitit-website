@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { mailRegex } from '../components/Helpers'
+import { mailRegex } from '../utils/helpers'
 import { useForm } from 'react-hook-form'
 
 import menu from '../img/contact/contactMenu.svg'
