@@ -1,9 +1,101 @@
 .student-panel {
   &--background {
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 65%, rgba(255, 255, 255, 1) 75%, rgba(255,255,255,0) 100%), linear-gradient(245deg, #037ae9 0%, #f500c8 100%) 0% 0% padding-box no-repeat;
+    background: url(../img/logoSmall.svg) no-repeat 15px 15px, linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 70%, rgba(255, 255, 255, 1) 80%, rgba(255,255,255,0) 100%), linear-gradient(245deg, #037ae9 0%, #f500c8 100%) 0% 0% padding-box no-repeat;
+  }
+
+  &__profile {
+    width: 100vw;
+    height: 20vh;
+
+    &-name {
+      float: right;
+      position: relative;
+      top: 45px;
+      right: 50px;
+
+      &--text {
+        font-size: $md-text-size;
+        color: #fff;
+      }
+    }
+  }
+
+  &__train {
+    width: 100vw;
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-kcal {
+      margin-right: 10%;
+    }
+
+    &-start {
+      background: url(../img/panels/bubble.svg) center no-repeat;
+      width: 210px;
+      height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: -50px;
+
+      &--header {
+        display: block;
+        font-size: $header-size;
+        color: #037be9b8;
+      }
+    }
+
+    &-time {
+      margin-left: 10%;
+    }
   }
 
   &__header {
+    display: block;
+    text-align: center;
+    font-size: $bg-text-size;
+    color: #037be9b8;
 
+    &--highlighted{
+      display: block;
+      text-align: center;
+      font-size: $bg-text-size;
+      color: #f700ca9e;
+    }
+  }
+
+  &__history {
+    width: 100vw;
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+
+  }
+
+  &__footer {
+    width: 100vw;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    &--text {
+      display: block;
+      text-align: center;
+      font-size: $md-text-size;
+      color: #037be9b8;
+      margin-bottom: 10px;
+    }
+
+    &--left {
+      margin-right: 5%;
+    }
+
+    &--right {
+      margin-left: 5%;
+    }
   }
 }

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { login, getUser } from '../services/APIService'
 import LoginDTO from '../types/login.dto'
 import { AppThunk, RootState } from './store'
+import ActivityLog from '../types/ActivityLog'
 
 interface UserState {
   user: Partial<User>
@@ -48,6 +49,10 @@ export const getUserAsync = (): AppThunk => async (dispatch, getState) => {
 
 export const { setState, setUser, clearState } = userSlice.actions
 export const selectUser = (state: RootState): Partial<User> => state.user.user
+export const selectActivities = (
+  state: RootState
+): Array<string> | Array<ActivityLog> | undefined =>
+  state.user.user.activityLog_ids
 export const selectToken = (state: RootState): string => state.user.token
 export const isTeacher = (state: RootState): boolean | undefined =>
   state.user.user.isTeacher

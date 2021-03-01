@@ -5,8 +5,6 @@ export { mailRegex }
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{10,32}$/
 export { passwordRegex }
 
-export const apiUrl = process.env.API_URL
-
 export function nameSurnameValidation(
   fieldName: string,
   fieldValue: string
@@ -59,4 +57,26 @@ export function handleErrors(response: Response): Response {
     throw Error(response.statusText)
   }
   return response
+}
+
+export const msToTime = (duration: number): string => {
+  let seconds: string | number = Math.floor((duration / 1000) % 60),
+    minutes: string | number = Math.floor((duration / (1000 * 60)) % 60),
+    hours: string | number = Math.floor((duration / (1000 * 60 * 60)) % 24)
+
+  hours = hours < 10 ? '0' + hours : hours
+  minutes = minutes < 10 ? '0' + minutes : minutes
+  seconds = seconds < 10 ? '0' + seconds : seconds
+
+  return hours + 'h ' + minutes + 'm ' + seconds + 's'
+}
+
+export const msToKcal = (duration: number, multiplier: number): string => {
+  return `${Math.floor((duration / 3600000) * multiplier)} kcal`
+}
+
+export const lastWeekActivityTime = () => {
+  const today: Date = new Date()
+  const weekAgo = today.toUTCString() - 7
+  console.log(weekAgo)
 }

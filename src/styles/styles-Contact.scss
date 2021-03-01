@@ -23,7 +23,6 @@
     font-size: $header-size;
     color: $header-color;
     text-align: center;
-    letter-spacing: 3px;
   }
   &--header::after{
     display: block;
@@ -58,7 +57,6 @@
       &--error {
         color: #f7003eb8;
         font-size: 15px;
-        letter-spacing: 1px;
       }
       }
     &__button {

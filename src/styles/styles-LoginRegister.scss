@@ -19,7 +19,6 @@
     font-size: $header-size;
     color: $header-color;
     text-align: center;
-    letter-spacing: 3px;
     margin-bottom: 30px;
   }
 
@@ -47,7 +46,6 @@
     &--error {
       color: #f7003eb8;
       font-size: 15px;
-      letter-spacing: 1px;
     }
   }
 
@@ -92,7 +90,7 @@
     color: #fff;
     float: right;
     padding: 7px;
-    width: 70px;
+    width: 80px;
     border-radius: 20px;
     background-image: linear-gradient(245deg, #037be9ba 0%, #f700cabd 100%);
   }
@@ -110,7 +108,7 @@
 
   &__button {
     @extend .login__button;
-    width: 90px;
+    width: 100px;
   }
 
   &__agreement {
