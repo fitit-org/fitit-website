@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210"
+   height="210.001"
+   viewBox="0 0 210 210.001"
+   version="1.1"
+   id="svg15"
+   sodipodi:docname="startBubble.svg"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
+  <metadata
+     id="metadata19">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     id="namedview17"
+     showgrid="false"
+     inkscape:zoom="1.1238041"
+     inkscape:cx="106.77967"
+     inkscape:cy="100.55133"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15" />
+  <defs
+     id="defs7">
+    <linearGradient
+       id="linear-gradient"
+       x1="0.5"
+       x2="0.5"
+       y2="1"
+       gradientUnits="objectBoundingBox">
+      <stop
+         offset="0"
+         stop-color="#037be9"
+         stop-opacity="0.902"
+         id="stop2" />
+      <stop
+         offset="1"
+         stop-color="#f700ca"
+         stop-opacity="0.902"
+         id="stop4" />
+    </linearGradient>
+  </defs>
+  <g
+     id="Group_147"
+     data-name="Group 147"
+     transform="translate(16108.01 13229.001)">
+    <g
+       id="Group_111"
+       data-name="Group 111"
+       transform="translate(997.729 520.999)">
+      <path
+         id="Subtraction_43"
+         data-name="Subtraction 43"
+         d="M-5134-3035a104.34,104.34,0,0,1-40.871-8.251,104.956,104.956,0,0,1-17.835-9.681,105.712,105.712,0,0,1-15.54-12.821,105.745,105.745,0,0,1-12.822-15.54,105,105,0,0,1-9.681-17.836A104.349,104.349,0,0,1-5239-3140a104.352,104.352,0,0,1,8.251-40.871,105,105,0,0,1,9.681-17.836,105.772,105.772,0,0,1,12.822-15.54,105.719,105.719,0,0,1,15.54-12.822,104.994,104.994,0,0,1,17.835-9.681A104.34,104.34,0,0,1-5134-3245a104.341,104.341,0,0,1,40.871,8.251,105.02,105.02,0,0,1,17.835,9.681,105.719,105.719,0,0,1,15.54,12.822,105.772,105.772,0,0,1,12.822,15.54,105.012,105.012,0,0,1,9.681,17.836A104.35,104.35,0,0,1-5029-3140a104.348,104.348,0,0,1-8.251,40.871,105.012,105.012,0,0,1-9.681,17.836,105.745,105.745,0,0,1-12.822,15.54,105.712,105.712,0,0,1-15.54,12.821,105,105,0,0,1-17.835,9.681A104.341,104.341,0,0,1-5134-3035Zm.5-203a98.612,98.612,0,0,0-98.5,98.5,98.611,98.611,0,0,0,98.5,98.5,98.611,98.611,0,0,0,98.5-98.5A98.612,98.612,0,0,0-5133.5-3238Z"
+         transform="translate(-11866.738 -10504.999)"
+         fill="url(#linear-gradient)" />
+    </g>
+  </g>
+</svg>

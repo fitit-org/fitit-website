@@ -1,4 +1,4 @@
-import React, { useState, useEffect, LegacyRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import arrow from '../img/main-view/arrowDown.svg'
 
 const MainView = (): JSX.Element => {

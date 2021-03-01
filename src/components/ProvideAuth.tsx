@@ -3,7 +3,7 @@ import { register, login } from '../services/APIService'
 import { authContext } from '../hooks/use-auth'
 import User from '../types/User'
 import { store } from '../store/store'
-import { getUserAsync, logOut, setState } from '../store/user'
+import { clearState, getUserAsync, logOut, setState } from '../store/user'
 
 const ProvideAuth = ({
   children,
@@ -26,10 +26,11 @@ function useProvideAuth() {
     return new Promise<void>((resolve, reject) => {
       login({ email: email, password: password })
         .then((data) => {
-          setUser(data.user)
-          setToken(data.token)
-          localStorage.setItem('token', data.token)
+          store.dispatch(clearState())
           store.dispatch(setState(data))
+          setUser(data.user)
+          localStorage.setItem('token', data.token)
+          setToken(data.token)
           resolve()
         })
         .catch((err) => {
@@ -54,6 +55,7 @@ function useProvideAuth() {
         code: code,
       })
         .then((data) => {
+          store.dispatch(clearState())
           store.dispatch(setState(data))
           setUser(data.user)
           localStorage.setItem('token', data.token)
