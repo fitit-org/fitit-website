@@ -1,7 +1,7 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import { selectActivities, selectUser } from '../store/user'
+import ActivityLog from '../types/ActivityLog'
 
 import { lastWeekActivityTime } from '../utils/helpers'
 
@@ -13,14 +13,13 @@ const StudentPanel = (props: Props): JSX.Element => {
   const user = useSelector(selectUser)
   const activities = useSelector(selectActivities)
 
+  document.title = props.title
+
   return (
     <div
       id={'student-panel'}
       className={'view--full-height student-panel--background'}
     >
-      <Helmet>
-        <title>{props.title}</title>
-      </Helmet>
       <div className={'student-panel__profile'}>
         <img src="" alt="" className={'student-panel__profile-picture'} />
         <div
@@ -43,7 +42,7 @@ const StudentPanel = (props: Props): JSX.Element => {
         </div>
         <div className={'student-panel__train-time'}>
           <span className={'student-panel__header'}>
-            {lastWeekActivityTime(activities)}
+            {lastWeekActivityTime(activities as Array<ActivityLog>)}
           </span>
           <span className={'student-panel__header--highlighted'}>
             Czas aktywności

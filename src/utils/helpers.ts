@@ -78,14 +78,14 @@ export const msToKcal = (duration: number, multiplier: number): string => {
 }
 
 export const lastWeekActivityTime = (
-  activities: Array<string> | Array<ActivityLog> | undefined
+  activities: Array<ActivityLog> | undefined
 ): string => {
   const lastWeek: Date = new Date()
   let weeklyActivityTime = 0
   lastWeek.setDate(lastWeek.getDate() - 7)
 
   if (activities !== undefined) {
-    activities.forEach((activity: any) => {
+    activities.forEach((activity: ActivityLog) => {
       if (Date.parse(activity.startDate) >= lastWeek.getTime()) {
         if (activity.endDate !== undefined) {
           weeklyActivityTime +=

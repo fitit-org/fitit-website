@@ -1,15 +1,12 @@
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
 
-export default class Contact extends React.Component<{ title: string }> {
-  render(): React.ReactElement {
-    return (
-      <div className={'view--full-height student-panel--background'}>
-        <Helmet>
-          <title>{this.props.title}</title>
-        </Helmet>
-        <div className={'student-panel__header'}></div>
-      </div>
-    )
-  }
+const Contact = ({ title }: { title: string }): JSX.Element => {
+  document.title = title
+  return (
+    <div className={'view--full-height student-panel--background'}>
+      <div className={'student-panel__header'}></div>
+    </div>
+  )
 }
+
+export default Contact

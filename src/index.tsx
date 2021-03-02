@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react'
-import ReactDOM from 'react-dom'
+import { render, hydrate } from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 
 import ProvideAuth from './components/ProvideAuth'
@@ -31,49 +30,47 @@ validateEnv()
 const App = (): JSX.Element => {
   return (
     <React.StrictMode>
-      <HelmetProvider>
-        <Provider store={store}>
-          <ProvideAuth>
-            <BrowserRouter>
-              <ErrorBoundary>
-                <Suspense fallback={renderLoader()}>
-                  <Switch>
-                    <Route
-                      exact
-                      path="/"
-                      render={() => (
-                        <div>
-                          <MainView />
-                          <Info />
-                          <LoginRegister />
-                          <Contact />
-                        </div>
-                      )}
-                    />
-                    <TeacherRoute path="/teacher">
-                      <TeacherPanel title="Panel nauczyciela | Fit IT" />
-                    </TeacherRoute>
-                    <StudentRoute path="/student">
-                      <StudentPanel title="Panel ucznia | Fit IT" />
-                    </StudentRoute>
-                  </Switch>
-                </Suspense>
-              </ErrorBoundary>
-            </BrowserRouter>
-          </ProvideAuth>
-        </Provider>
-      </HelmetProvider>
+      <Provider store={store}>
+        <ProvideAuth>
+          <BrowserRouter>
+            <ErrorBoundary>
+              <Suspense fallback={renderLoader()}>
+                <Switch>
+                  <Route
+                    exact
+                    path="/"
+                    render={() => (
+                      <div>
+                        <MainView />
+                        <Info />
+                        <LoginRegister />
+                        <Contact />
+                      </div>
+                    )}
+                  />
+                  <TeacherRoute path="/teacher">
+                    <TeacherPanel title="Panel nauczyciela | Fit IT" />
+                  </TeacherRoute>
+                  <StudentRoute path="/student">
+                    <StudentPanel title="Panel ucznia | Fit IT" />
+                  </StudentRoute>
+                </Switch>
+              </Suspense>
+            </ErrorBoundary>
+          </BrowserRouter>
+        </ProvideAuth>
+      </Provider>
     </React.StrictMode>
   )
 }
 
 const rootElement = document.getElementById('root')
 
-if ((rootElement as HTMLElement).hasChildNodes()) {
-  ReactDOM.hydrate(<App />, rootElement)
+if (rootElement?.hasChildNodes()) {
+  hydrate(<App />, rootElement)
 } else {
-  ReactDOM.render(<App />, rootElement)
+  render(<App />, rootElement)
 }
 
 serviceWorkerRegistration.register()
-reportWebVitals()
+reportWebVitals(console.log)
