@@ -12,7 +12,7 @@ import reportWebVitals from './reportWebVitals'
 
 import validateEnv from './utils/validateEnv'
 
-import './styles/main.scss'
+import './styles/index.scss'
 
 const MainView = lazy(() => import('./views/MainView'))
 const Info = lazy(() => import('./views/Info'))

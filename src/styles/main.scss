@@ -1,14 +1,3 @@
-@import 'preflight';
-@import 'variables';
-@import 'fonts';
-@import 'animations';
-@import 'styles-MainView';
-@import 'styles-Info';
-@import 'styles-LoginRegister';
-@import 'styles-Contact';
-@import 'styles-StudentPanel.scss';
-@import 'styles-TeacherPanel';
-
 html {
   scroll-behavior: smooth;
   overflow: hidden;
