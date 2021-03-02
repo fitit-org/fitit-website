@@ -1,4 +1,5 @@
 import ActivityLog from '../types/ActivityLog'
+import { ActivityType } from '../types/ActivityType'
 
 // eslint-disable-next-line no-control-regex
 const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -77,30 +78,57 @@ export const msToKcal = (duration: number, multiplier: number): string => {
   return `${Math.floor((duration / 3600000) * multiplier)} kcal`
 }
 
-export const lastWeekActivityTime = (
-  activities: Array<ActivityLog> | undefined
-): string => {
+export const getDate = (days: number): Date => {
   const lastWeek: Date = new Date()
-  let weeklyActivityTime = 0
-  lastWeek.setDate(lastWeek.getDate() - 7)
+  lastWeek.setDate(lastWeek.getDate() - days)
+  return lastWeek
+}
 
+export const activityTime = (
+  activities: Array<ActivityLog> | undefined,
+  period: number
+): number => {
+  const lastDate = getDate(period)
+  let activityTime = 0
   if (activities !== undefined) {
     activities.forEach((activity: ActivityLog) => {
-      if (Date.parse(activity.startDate) >= lastWeek.getTime()) {
+      if (Date.parse(activity.startDate) >= lastDate.getTime()) {
         if (activity.endDate !== undefined) {
-          weeklyActivityTime +=
+          activityTime +=
             Date.parse(activity.endDate) - Date.parse(activity.startDate)
         }
       } else {
-        return weeklyActivityTime
+        return 0
       }
     })
-    return msToTime(weeklyActivityTime)
+    return activityTime
   } else {
-    return 'Brak aktywności'
+    return activityTime
   }
 }
 
-// export const lastWeekActivityKcal = (time: number) => {
-//   return msToKcal()
-// }
+export const activityKcal = (
+  activities: Array<ActivityLog> | undefined,
+  period: number
+): number => {
+  const lastDate = getDate(period)
+  let activityKcal = 0
+  if (activities !== undefined) {
+    activities.forEach((activity: ActivityLog) => {
+      if (Date.parse(activity.startDate) >= lastDate.getTime()) {
+        if (activity.endDate !== undefined) {
+          activityKcal += Math.floor(
+            ((Date.parse(activity.endDate) - Date.parse(activity.startDate)) /
+              3600000) *
+              (activity.activityType_id as ActivityType).kcalPerHour
+          )
+        }
+      } else {
+        return 0
+      }
+    })
+    return activityKcal
+  } else {
+    return activityKcal
+  }
+}

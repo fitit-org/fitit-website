@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { selectActivities, selectUser } from '../store/user'
 import ActivityLog from '../types/ActivityLog'
 
-import { lastWeekActivityTime } from '../utils/helpers'
+import { activityKcal, activityTime, msToTime } from '../utils/helpers'
 
 type Props = {
   title: string
@@ -12,6 +12,7 @@ type Props = {
 const StudentPanel = (props: Props): JSX.Element => {
   const user = useSelector(selectUser)
   const activities = useSelector(selectActivities)
+  const period = 7
 
   document.title = props.title
 
@@ -32,21 +33,21 @@ const StudentPanel = (props: Props): JSX.Element => {
       </div>
       <div className={'student-panel__train'}>
         <div className={'student-panel__train-kcal'}>
-          <span className={'student-panel__header'}>{}</span>
+          <span className={'student-panel__header'}>Ostatni tydzień</span>
           <span className={'student-panel__header--highlighted'}>
-            Spalone kalorie
+            {`${activityKcal(activities as Array<ActivityLog>, period)} kcal`}
           </span>
+          <span className={'student-panel__header'}>Spalone kalorie</span>
         </div>
         <div className={'student-panel__train-start'}>
           <span className={'student-panel__train-start--header'}>START</span>
         </div>
         <div className={'student-panel__train-time'}>
-          <span className={'student-panel__header'}>
-            {lastWeekActivityTime(activities as Array<ActivityLog>)}
-          </span>
+          <span className={'student-panel__header'}>Ostatni tydzień</span>
           <span className={'student-panel__header--highlighted'}>
-            Czas aktywności
+            {msToTime(activityTime(activities as Array<ActivityLog>, period))}
           </span>
+          <span className={'student-panel__header'}>Czas aktywności</span>
         </div>
       </div>
       <div className={'student-panel__history'}>
