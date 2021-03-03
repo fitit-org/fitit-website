@@ -3,18 +3,24 @@ import { useSelector } from 'react-redux'
 import { selectActivities, selectUser } from '../store/user'
 import ActivityLog from '../types/ActivityLog'
 
-import { activityKcal, activityTime, msToTime } from '../utils/helpers'
+import {
+  activityKcal,
+  activityTime,
+  renderLastActivities,
+  msToTime,
+} from '../utils/helpers'
 
 type Props = {
   title: string
 }
 
 const StudentPanel = (props: Props): JSX.Element => {
+  document.title = props.title
+
   const user = useSelector(selectUser)
   const activities = useSelector(selectActivities)
   const period = 7
-
-  document.title = props.title
+  const count = 5
 
   return (
     <div
@@ -52,7 +58,9 @@ const StudentPanel = (props: Props): JSX.Element => {
       </div>
       <div className={'student-panel__history'}>
         <span className={'student-panel__header'}>Historia treningów</span>
-        <div className={'student-panel__history-activities'}></div>
+        <div className={'student-panel__history-activities'}>
+          {renderLastActivities(activities as Array<ActivityLog>, count)}
+        </div>
       </div>
       <div className={'student-panel__footer'}>
         <span
