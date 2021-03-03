@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { render, hydrate } from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { HelmetProvider, Helmet } from 'react-helmet-async'
 
 import ProvideAuth from './components/ProvideAuth'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -32,32 +33,58 @@ const App = (): JSX.Element => {
     <React.StrictMode>
       <Provider store={store}>
         <ProvideAuth>
-          <BrowserRouter>
-            <ErrorBoundary>
-              <Suspense fallback={renderLoader()}>
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={() => (
-                      <div>
-                        <MainView />
-                        <Info />
-                        <LoginRegister />
-                        <Contact />
-                      </div>
-                    )}
+          <HelmetProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
+                <Helmet>
+                  <meta charSet="utf-8" />
+                  <link
+                    rel="icon"
+                    href={`${process.env.PUBLIC_URL}/favicon.ico`}
                   />
-                  <TeacherRoute path="/teacher">
-                    <TeacherPanel title="Panel nauczyciela | Fit IT" />
-                  </TeacherRoute>
-                  <StudentRoute path="/student">
-                    <StudentPanel title="Panel ucznia | Fit IT" />
-                  </StudentRoute>
-                </Switch>
-              </Suspense>
-            </ErrorBoundary>
-          </BrowserRouter>
+                  <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                  />
+                  <title>Fit IT</title>
+                  <meta
+                    name="description"
+                    content="Aplikacja Fit - szkolne endomondo"
+                  />
+                  <link
+                    rel="apple-touch-icon"
+                    href={`${process.env.PUBLIC_URL}/logo192.png`}
+                  />
+                  <link
+                    rel="manifest"
+                    href={`${process.env.PUBLIC_URL}/manifest.json`}
+                  />
+                </Helmet>
+                <Suspense fallback={renderLoader()}>
+                  <Switch>
+                    <Route
+                      exact
+                      path="/"
+                      render={() => (
+                        <div>
+                          <MainView />
+                          <Info />
+                          <LoginRegister />
+                          <Contact />
+                        </div>
+                      )}
+                    />
+                    <TeacherRoute path="/teacher">
+                      <TeacherPanel />
+                    </TeacherRoute>
+                    <StudentRoute path="/student">
+                      <StudentPanel />
+                    </StudentRoute>
+                  </Switch>
+                </Suspense>
+              </ErrorBoundary>
+            </BrowserRouter>
+          </HelmetProvider>
         </ProvideAuth>
       </Provider>
     </React.StrictMode>

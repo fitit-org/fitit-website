@@ -2,25 +2,23 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectActivities, selectUser } from '../store/user'
 import ActivityLog from '../types/ActivityLog'
+import { Helmet } from 'react-helmet-async'
 
 import { activityKcal, activityTime, msToTime } from '../utils/helpers'
 
-type Props = {
-  title: string
-}
-
-const StudentPanel = (props: Props): JSX.Element => {
+const StudentPanel = (): JSX.Element => {
   const user = useSelector(selectUser)
   const activities = useSelector(selectActivities)
   const period = 7
-
-  document.title = props.title
 
   return (
     <div
       id={'student-panel'}
       className={'view--full-height student-panel--background'}
     >
+      <Helmet>
+        <title>Panel ucznia | Fit IT</title>
+      </Helmet>
       <div className={'student-panel__profile'}>
         <img src="" alt="" className={'student-panel__profile-picture'} />
         <div
