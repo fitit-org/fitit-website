@@ -119,3 +119,20 @@
     }
   }
 }
+
+@media only screen and (max-width: 768px) {
+  #login-register {
+    margin-left: 0;
+  }
+  .login-register {
+    height: 90%;
+    width: 90%;
+    &__container {
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  .login {
+    margin-right: 0;
+  }
+}
