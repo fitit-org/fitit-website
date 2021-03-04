@@ -52,6 +52,7 @@ const Contact = (): JSX.Element => {
           >
             {errors.name && errors.name.message}
           </span>
+          <br />
           <input
             id={'contactMail'}
             className={'contactBox__form__input--text input--margin'}
@@ -73,19 +74,20 @@ const Contact = (): JSX.Element => {
             {errors.contactMail && errors.contactMail.message}
           </span>
           <br />
+          <textarea
+            id={'contactMsg'}
+            form={'contactForm'}
+            className={'contactBox__form--textarea input--margin'}
+            placeholder="Wiadomość"
+            required
+          />
           <input
             className={'contactBox__form__button input--margin'}
             type="submit"
             value="Wyślij"
+            form={'contactForm'}
           />
         </form>
-        <textarea
-          id={'contactMsg'}
-          form={'contactForm'}
-          className={'contactBox--textarea input--margin'}
-          placeholder="Wiadomość"
-          required
-        />
       </div>
       <img
         className={'menu-contact--bottom-right'}

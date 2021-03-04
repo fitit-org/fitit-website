@@ -14,33 +14,33 @@ const Info = (): JSX.Element => {
         <div className={'box__grid'}>
           <div id={'box__grid__items__follow'} className={'box__grid__items'}>
             <img className={'box__grid__pics'} src={follow} alt="" />
-            <p>Śledź wszystko</p>
+            <span>Śledź wszystko</span>
           </div>
           <div id={'box__grid__items__train'} className={'box__grid__items'}>
             <img className={'box__grid__pics'} src={train} alt="" />
-            <p>Trenuj mądrze</p>
+            <span>Trenuj mądrze</span>
           </div>
           <div
             id={'box__grid__items__activities'}
             className={'box__grid__items'}
           >
             <img className={'box__grid__pics'} src={monitor} alt="" />
-            <p>Monitoruj aktywność</p>
+            <span>Monitoruj aktywność</span>
           </div>
           <div id={'box__grid__items__analyze'} className={'box__grid__items'}>
             <img className={'box__grid__pics'} src={analyze} alt="" />
-            <p>Analizuj aktywność</p>
+            <span>Analizuj aktywność</span>
           </div>
           <div id={'box__grid__items__notify'} className={'box__grid__items'}>
             <img className={'box__grid__pics'} src={notify} alt="" />
-            <p>Ustawiaj powiadomienia</p>
+            <span>Ustawiaj powiadomienia</span>
           </div>
           <div
             id={'box__grid__items__motivation'}
             className={'box__grid__items'}
           >
             <img className={'box__grid__pics'} src={motivation} alt="" />
-            <p>Większa motywacja</p>
+            <span>Większa motywacja</span>
           </div>
         </div>
       </div>
