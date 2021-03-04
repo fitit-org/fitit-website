@@ -32,6 +32,7 @@ export function* loginWorker(
   try {
     const { payload } = action
     const data = yield call(login, payload)
+    localStorage.setItem('token', (data as AuthResponse).token)
     yield put(userAction(LOGIN_SUCCESS, data))
   } catch (error) {
     yield put(userAction(LOGIN_FAILED, error))
@@ -48,6 +49,7 @@ export function* registerWorker(
   try {
     const { payload } = action
     const data = yield call(register, payload)
+    localStorage.setItem('token', (data as AuthResponse).token)
     yield put(userAction(REGISTER_SUCCESS, data))
   } catch (error) {
     yield put(userAction(REGISTER_FAILED, error))
