@@ -12,7 +12,7 @@ enum FetchMethod {
   DELETE = 'DELETE',
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   user: User
   token: string
 }
@@ -71,7 +71,7 @@ export async function register(dto: RegisterDTO): Promise<AuthResponse> {
   )
 }
 
-export async function getUser(token: string): Promise<User> {
+export async function getUser(token: string): Promise<Partial<User>> {
   return fetchAndCatch(
     FetchMethod.GET,
     `${URI}/api/v1/users`,

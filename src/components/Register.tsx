@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
-import { RouteComponentProps, withRouter } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
-
+import { userAction, UserAction } from '../store/modules/user/actions'
+import { user, token, registerError } from '../store/modules/user/selectors'
+import User from '../types/User'
+import { StoreState } from '../types/StoreTypes'
+import { GET_USER_REQUEST, REGISTER_REQUEST } from '../utils/constants'
+import { connect } from 'react-redux'
 import { mailRegex, passwordRegex } from '../utils/helpers'
-import { useAuth } from '../hooks/use-auth'
 
 type RegisterData = {
   name: string
@@ -14,32 +18,52 @@ type RegisterData = {
   code: string
 }
 
-const Register = ({ history }: RouteComponentProps): JSX.Element => {
+type RegisterProps = {
+  user: Partial<User>
+  token: string
+  error: boolean
+  register: UserAction
+  getUser: UserAction
+}
+
+const Register = (props: RegisterProps): JSX.Element => {
   const { register, errors, handleSubmit, getValues } = useForm<RegisterData>({
     mode: 'onBlur',
   })
-  const [registerError, setRegisterError] = useState(false)
-  const auth = useAuth()
+  const [error, setError] = useState(false)
+  const history = useHistory()
+
+  useEffect(() => {
+    if (props.token !== '') {
+      if (Object.keys(props.user).length !== 0) {
+        if (props.user.isTeacher) {
+          history.push('/teacher')
+        } else {
+          history.push('/student')
+        }
+      } else {
+        props.getUser(GET_USER_REQUEST, undefined)
+      }
+    }
+    setError(props.error)
+  }, [props, history])
 
   const onSubmit: SubmitHandler<RegisterData> = async (
     { name, surname, email, password, passwordRepeated, code },
     e
   ) => {
     e?.preventDefault()
-    try {
-      await auth.signup(name, surname, email, password, code)
-      if (auth.user.isTeacher) {
-        history.push('/teacher')
-      } else {
-        history.push('/student')
-      }
-    } catch (err) {
-      setRegisterError(true)
-    }
+    props.register(REGISTER_REQUEST, {
+      name: name,
+      surname: surname,
+      email: email,
+      password: password,
+      code: code,
+    })
   }
 
   const onError: SubmitErrorHandler<RegisterData> = (errors) => {
-    setRegisterError(true)
+    setError(true)
   }
 
   return (
@@ -200,7 +224,7 @@ const Register = ({ history }: RouteComponentProps): JSX.Element => {
         </a>
         <br />
         <span id={'registerError'} className={'login-register__input--error'}>
-          {registerError ? 'Wystąpił błąd przy rejestracji' : ''}
+          {error ? 'Wystąpił błąd przy rejestracji' : ''}
         </span>
         <input
           className={'input--margin register__button'}
@@ -212,4 +236,15 @@ const Register = ({ history }: RouteComponentProps): JSX.Element => {
   )
 }
 
-export default withRouter(Register)
+const stateToProps = (state: StoreState) => ({
+  user: user(state),
+  token: token(state),
+  error: registerError(state),
+})
+
+const dispatchToProps = {
+  register: userAction,
+  getUser: userAction,
+}
+
+export default connect(stateToProps, dispatchToProps)(Register)
