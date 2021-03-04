@@ -1,3 +1,5 @@
+import React from 'react'
+import ActivityBubble from '../components/ActivityBubble'
 import ActivityLog from '../types/ActivityLog'
 import { ActivityType } from '../types/ActivityType'
 
@@ -130,5 +132,62 @@ export const activityKcal = (
     return activityKcal
   } else {
     return activityKcal
+  }
+}
+
+export const renderLastActivities = (
+  activities: Array<ActivityLog> | undefined,
+  count: number
+): Array<JSX.Element> | JSX.Element => {
+  if (activities !== undefined) {
+    const lastActivities: Array<JSX.Element> = []
+    if (activities.length < count) {
+      for (let i = activities.length - 1; i >= 0; i -= 1) {
+        const activity: ActivityLog = activities[i]
+        console.log(activities[i])
+        if (activity.endDate !== undefined) {
+          const deltaTime: number =
+            Date.parse(activity.endDate) - Date.parse(activity.startDate)
+          lastActivities.push(
+            <ActivityBubble
+              key={i}
+              activity={activity}
+              kcal={msToKcal(
+                deltaTime,
+                (activity.activityType_id as ActivityType).kcalPerHour
+              )}
+              time={msToTime(deltaTime)}
+            />
+          )
+        }
+      }
+    } else {
+      for (
+        let i = activities.length - 1;
+        i > activities.length - count - 1;
+        i -= 1
+      ) {
+        const activity: ActivityLog = activities[i]
+        console.log(activities[i])
+        if (activity.endDate !== undefined) {
+          const deltaTime: number =
+            Date.parse(activity.endDate) - Date.parse(activity.startDate)
+          lastActivities.push(
+            <ActivityBubble
+              key={i}
+              activity={activity}
+              kcal={msToKcal(
+                deltaTime,
+                (activity.activityType_id as ActivityType).kcalPerHour
+              )}
+              time={msToTime(deltaTime)}
+            />
+          )
+        }
+      }
+    }
+    return lastActivities
+  } else {
+    return <span className={'student-panel__header'}>{'Brak aktywności'}</span>
   }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import ActivityLog from '../types/ActivityLog'
+
 import { Helmet } from 'react-helmet-async'
 import { activityKcal, activityTime, msToTime } from '../utils/helpers'
 import { userAction, UserAction } from '../store/modules/user/actions'
@@ -70,7 +71,9 @@ const StudentPanel = (props: StudentPanelProps): JSX.Element => {
       </div>
       <div className={'student-panel__history'}>
         <span className={'student-panel__header'}>Historia treningów</span>
-        <div className={'student-panel__history-activities'}></div>
+        <div className={'student-panel__history-activities'}>
+          {renderLastActivities(activities as Array<ActivityLog>, count)}
+        </div>
       </div>
       <div className={'student-panel__footer'}>
         <span

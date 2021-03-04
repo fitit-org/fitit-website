@@ -73,6 +73,9 @@
     display: flex;
     justify-content: center;
 
+    &-activities {
+      width: 100vw;
+    }
   }
 
   &__footer {
