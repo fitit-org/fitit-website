@@ -2,7 +2,12 @@ import React, { useEffect } from 'react'
 import ActivityLog from '../types/ActivityLog'
 
 import { Helmet } from 'react-helmet-async'
-import { activityKcal, activityTime, msToTime } from '../utils/helpers'
+import {
+  activityKcal,
+  activityTime,
+  msToTime,
+  renderLastActivities,
+} from '../utils/helpers'
 import { userAction, UserAction } from '../store/modules/user/actions'
 import User from '../types/User'
 import { StoreState } from '../types/StoreTypes'
@@ -19,6 +24,7 @@ type StudentPanelProps = {
 
 const StudentPanel = (props: StudentPanelProps): JSX.Element => {
   const period = 7
+  const count = 5
 
   useEffect(() => {
     if (Object.keys(props.user).length === 0) {
@@ -72,7 +78,7 @@ const StudentPanel = (props: StudentPanelProps): JSX.Element => {
       <div className={'student-panel__history'}>
         <span className={'student-panel__header'}>Historia treningów</span>
         <div className={'student-panel__history-activities'}>
-          {renderLastActivities(activities as Array<ActivityLog>, count)}
+          {renderLastActivities(props.activityLog as Array<ActivityLog>, count)}
         </div>
       </div>
       <div className={'student-panel__footer'}>
