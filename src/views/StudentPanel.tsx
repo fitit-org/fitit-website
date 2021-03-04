@@ -1,15 +1,30 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectActivities, selectUser } from '../store/user'
+import React, { useEffect } from 'react'
 import ActivityLog from '../types/ActivityLog'
 import { Helmet } from 'react-helmet-async'
-
 import { activityKcal, activityTime, msToTime } from '../utils/helpers'
+import { userAction, UserAction } from '../store/modules/user/actions'
+import User from '../types/User'
+import { StoreState } from '../types/StoreTypes'
+import { user, token, activityLog } from '../store/modules/user/selectors'
+import { GET_USER_REQUEST } from '../utils/constants'
+import { connect } from 'react-redux'
 
-const StudentPanel = (): JSX.Element => {
-  const user = useSelector(selectUser)
-  const activities = useSelector(selectActivities)
+type StudentPanelProps = {
+  user: Partial<User>
+  token: string
+  activityLog: Array<ActivityLog> | Array<string> | undefined
+  getUser: UserAction
+}
+
+const StudentPanel = (props: StudentPanelProps): JSX.Element => {
   const period = 7
+
+  useEffect(() => {
+    if (Object.keys(props.user).length === 0) {
+      props.getUser(GET_USER_REQUEST, undefined)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
@@ -26,14 +41,17 @@ const StudentPanel = (): JSX.Element => {
             'student-panel__profile-name student-panel__profile-name--text'
           }
         >
-          {`${user.name} ${user.surname}`}
+          {`${user.name} ${props.user.surname}`}
         </div>
       </div>
       <div className={'student-panel__train'}>
         <div className={'student-panel__train-kcal'}>
           <span className={'student-panel__header'}>Ostatni tydzień</span>
           <span className={'student-panel__header--highlighted'}>
-            {`${activityKcal(activities as Array<ActivityLog>, period)} kcal`}
+            {`${activityKcal(
+              props.activityLog as Array<ActivityLog>,
+              period
+            )} kcal`}
           </span>
           <span className={'student-panel__header'}>Spalone kalorie</span>
         </div>
@@ -43,7 +61,9 @@ const StudentPanel = (): JSX.Element => {
         <div className={'student-panel__train-time'}>
           <span className={'student-panel__header'}>Ostatni tydzień</span>
           <span className={'student-panel__header--highlighted'}>
-            {msToTime(activityTime(activities as Array<ActivityLog>, period))}
+            {msToTime(
+              activityTime(props.activityLog as Array<ActivityLog>, period)
+            )}
           </span>
           <span className={'student-panel__header'}>Czas aktywności</span>
         </div>
@@ -71,4 +91,14 @@ const StudentPanel = (): JSX.Element => {
   )
 }
 
-export default StudentPanel
+const stateToProps = (state: StoreState) => ({
+  user: user(state),
+  token: token(state),
+  activityLog: activityLog(state),
+})
+
+const dispatchToProps = {
+  getUser: userAction,
+}
+
+export default connect(stateToProps, dispatchToProps)(StudentPanel)

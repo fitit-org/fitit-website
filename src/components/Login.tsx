@@ -1,38 +1,58 @@
-import React, { useState } from 'react'
-import { useHistory, withRouter } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form'
 import { mailRegex } from '../utils/helpers'
-import { useAuth } from '../hooks/use-auth'
+import { userAction, UserAction } from '../store/modules/user/actions'
+import { user, token, loginError } from '../store/modules/user/selectors'
+import User from '../types/User'
+import { StoreState } from '../types/StoreTypes'
+import { GET_USER_REQUEST, LOGIN_REQUEST } from '../utils/constants'
+import { connect } from 'react-redux'
+
+type LoginProps = {
+  user: Partial<User>
+  token: string
+  error: boolean
+  login: UserAction
+  getUser: UserAction
+}
 
 type LoginData = {
   email: string
   password: string
 }
 
-const Login = (): JSX.Element => {
+const Login = (props: LoginProps): JSX.Element => {
+  const history = useHistory()
+
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    if (props.token !== '') {
+      if (Object.keys(props.user).length !== 0) {
+        if (props.user.isTeacher) {
+          history.push('/teacher')
+        } else {
+          history.push('/student')
+        }
+      } else {
+        props.getUser(GET_USER_REQUEST, undefined)
+      }
+    }
+    setError(props.error)
+  }, [props, history])
+
   const { register, errors, handleSubmit } = useForm<LoginData>({
     mode: 'onBlur',
   })
-  const [loginError, setLoginError] = useState(false)
-  const history = useHistory()
-  const auth = useAuth()
 
-  const onSubmit: SubmitHandler<LoginData> = async ({ email, password }, e) => {
+  const onSubmit: SubmitHandler<LoginData> = ({ email, password }, e) => {
     e?.preventDefault()
-    try {
-      await auth.signin(email, password)
-      if (auth.user.isTeacher) {
-        history.push('/teacher')
-      } else {
-        history.push('/student')
-      }
-    } catch (err) {
-      setLoginError(true)
-    }
+    props.login(LOGIN_REQUEST, { email: email, password: password })
   }
 
   const onError: SubmitErrorHandler<LoginData> = (errors) => {
-    setLoginError(true)
+    setError(true)
   }
 
   return (
@@ -94,11 +114,22 @@ const Login = (): JSX.Element => {
           value="Zaloguj"
         />
         <span id="loginError" className={'login-register__input--error'}>
-          {loginError ? 'Email lub hasło są niepoprawne' : ''}
+          {error ? 'Email lub hasło są niepoprawne' : ''}
         </span>
       </form>
     </div>
   )
 }
 
-export default withRouter(Login)
+const stateToProps = (state: StoreState) => ({
+  user: user(state),
+  token: token(state),
+  error: loginError(state),
+})
+
+const dispatchToProps = {
+  login: userAction,
+  getUser: userAction,
+}
+
+export default connect(stateToProps, dispatchToProps)(Login)
