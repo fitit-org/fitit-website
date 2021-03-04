@@ -144,7 +144,6 @@ export const renderLastActivities = (
     if (activities.length < count) {
       for (let i = activities.length - 1; i >= 0; i -= 1) {
         const activity: ActivityLog = activities[i]
-        console.log(activities[i])
         if (activity.endDate !== undefined) {
           const deltaTime: number =
             Date.parse(activity.endDate) - Date.parse(activity.startDate)
@@ -168,7 +167,6 @@ export const renderLastActivities = (
         i -= 1
       ) {
         const activity: ActivityLog = activities[i]
-        console.log(activities[i])
         if (activity.endDate !== undefined) {
           const deltaTime: number =
             Date.parse(activity.endDate) - Date.parse(activity.startDate)

@@ -48,7 +48,7 @@ const StudentPanel = (props: StudentPanelProps): JSX.Element => {
             'student-panel__profile-name student-panel__profile-name--text'
           }
         >
-          {`${user.name} ${props.user.surname}`}
+          {`${props.user.name} ${props.user.surname}`}
         </div>
       </div>
       <div className={'student-panel__train'}>

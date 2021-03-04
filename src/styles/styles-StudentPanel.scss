@@ -71,12 +71,45 @@
     width: 100vw;
     height: 35vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 
     &-activities {
-      width: 100vw;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    &-bubble {
+      background: url(../img/panels/bubble.svg) center no-repeat;
+      width: 210px;
+      height: 210px;
+      display: flex;
+      margin-top: 30px;
+      margin-left: 30px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      &--img {
+        width: auto;
+        height: 50px;
+      }
+
+      &--text {
+        color: #037BE9B8;
+      }
+
+      &--hr {
+        width: 100px;
+        border-top: #f500c8 1px solid;
+        margin: 5px 0 5px 0;
+      }
     }
   }
+
 
   &__footer {
     width: 100vw;

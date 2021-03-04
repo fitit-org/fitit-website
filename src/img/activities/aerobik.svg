@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   sodipodi:docname="aerobik.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.32"
+     inkscape:cx="9.198047"
+     inkscape:cy="487.21044"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="728"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Warstwa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g889"
+       style="opacity:0.65;fill:#037be9;fill-opacity:1"
+       transform="matrix(0.77621946,0,0,0.77621946,71.166142,105.82807)">
+      <path
+         id="rect847"
+         style="opacity:1;fill:#037be9;fill-opacity:1;stroke-width:3.165;stroke-linecap:round;stroke-linejoin:round"
+         d="m 51.315753,72.96458 29.132372,-0.53454 c 0,0 0,0 -55.859331,100.7606 C 11.653121,196.52437 -6.468433,179.13045 3.4060789e-6,167.30534 51.315753,73.493746 51.315753,72.96458 51.315753,72.96458 Z"
+         sodipodi:nodetypes="ccssc" />
+      <path
+         id="rect847-0"
+         style="opacity:1;fill:#037be9;fill-opacity:1;stroke-width:3.165;stroke-linecap:round;stroke-linejoin:round"
+         d="m 80.448125,72.43004 c 0,0 -45.772056,-77.3137076 -30.298132,-68.4774803 20.882699,11.9248533 42.367293,37.5904473 54.930277,66.0529253 19.56078,44.316565 24.34498,93.510255 24.34498,93.510255 2.24903,27.36761 -20.23911,24.29425 -22.74086,11.04981 C 86.837407,69.494063 80.448125,72.43004 80.448125,72.43004 Z"
+         sodipodi:nodetypes="cssssc" />
+      <path
+         id="path872"
+         style="opacity:1;fill:#037be9;fill-opacity:1;stroke-width:3.165;stroke-linecap:round;stroke-linejoin:round"
+         d="M 16.303441,-16.83798 A 19.510675,19.510675 0 0 1 -3.2072344,2.6726952 19.510675,19.510675 0 0 1 -22.71791,-16.83798 19.510675,19.510675 0 0 1 -3.2072344,-36.348656 19.510675,19.510675 0 0 1 16.303441,-16.83798 Z" />
+      <path
+         id="rect874"
+         style="opacity:1;fill:#037be9;fill-opacity:1;stroke-width:3.165;stroke-linecap:round;stroke-linejoin:round"
+         d="m -40.144155,-58.712192 c -4.6963,-19.660278 59.607495,-22.083727 81.392117,7.9375 22.180829,30.567237 7.181547,55.0936011 7.181547,55.0936011 L 10.180646,13.475092 c 35.909284,-25.97118 11.830395,-52.715535 3.347818,-58.293088 -30.93024,-20.337575 -49.378909,4.08071 -53.672619,-13.894196 z"
+         sodipodi:nodetypes="ssccss" />
+      <path
+         id="rect877"
+         style="opacity:1;fill:#037be9;fill-opacity:1;stroke-width:11.9622;stroke-linecap:round;stroke-linejoin:round"
+         d="M 185.04102,12.324219 34.478516,50.929688 c 0,0 -31.3121877,82.547262 -55.429688,164.785152 -4.138605,14.11217 0.284891,37.30526 14.3085939,41.73438 C 83.824104,286.02137 306.05664,273.75195 306.05664,273.75195 Z M 141.42773,87.142578 250,190 239.49219,207.1875 c 0,0 -11.38063,-11.06865 -18.58594,-13.86914 C 179.58355,177.25743 88.572266,180 88.572266,180 l 24.285154,-71.42773 z"
+         transform="scale(0.26458333)" />
+    </g>
+  </g>
+</svg>
