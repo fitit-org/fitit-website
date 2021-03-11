@@ -2,6 +2,7 @@ import React from 'react'
 import ActivityBubble from '../components/ActivityBubble'
 import ActivityLog from '../types/ActivityLog'
 import { ActivityType } from '../types/ActivityType'
+import User from '../types/User'
 
 // eslint-disable-next-line no-control-regex
 const mailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -133,6 +134,71 @@ export const activityKcal = (
   } else {
     return activityKcal
   }
+}
+
+interface UserWithLastActivityAndDuration {
+  name: string
+  surname: string
+  activityTypeName: string
+  parsedDurationInMinutes: string
+  _id: string
+}
+
+export const getLastActivitiesFromUsers = (
+  users: Array<User>,
+  last: number
+): Array<UserWithLastActivityAndDuration> => {
+  const activitiesWithDuration = [] as Array<{
+    user: User
+    activity: ActivityLog
+  }>
+  users.forEach((user) => {
+    if (
+      user.isActive &&
+      !user.isTeacher &&
+      user.activityLog_ids !== undefined
+    ) {
+      ;(user.activityLog_ids as Array<ActivityLog>).forEach((activity) => {
+        if (activity.startDate && activity.endDate) {
+          activitiesWithDuration.push({ user: user, activity: activity })
+        }
+      })
+    }
+  })
+  activitiesWithDuration.sort((a, b) => {
+    return (
+      new Date(b.activity.endDate as string).getTime() -
+      new Date(a.activity.endDate as string).getTime()
+    )
+  })
+  const newArr: Array<UserWithLastActivityAndDuration> = []
+  activitiesWithDuration.splice(0, last).forEach((obj) => {
+    const diff: number = Math.abs(
+      new Date(obj.activity.endDate as string).getTime() -
+        new Date(obj.activity.startDate as string).getTime()
+    )
+    const diffInMins = diff / 60000
+    const diffInHours = diffInMins / 60
+    const restInMins = diffInMins % 60
+    let durString = ''
+    if (diffInHours > 0) {
+      durString = `${Math.floor(diffInHours)}h`
+      if (restInMins > 0) {
+        durString = `${durString} ${Math.round(restInMins)} min`
+      }
+    } else {
+      durString = `${Math.round(diffInMins)} min`
+    }
+    newArr.push({
+      name: obj.user.name,
+      surname: obj.user.surname,
+      activityTypeName: (obj.activity.activityType_id as ActivityType).name,
+      parsedDurationInMinutes: durString,
+      _id: obj.activity._id,
+    })
+  })
+  console.log('Done!', newArr)
+  return newArr
 }
 
 export const renderLastActivities = (

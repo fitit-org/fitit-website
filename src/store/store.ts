@@ -12,9 +12,11 @@ import { rootReducer } from './reducer'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { StoreState, StoreAction, UserState } from '../types/StoreTypes'
 import { initUserState } from './modules/user/reducer'
+import { initClassesState } from './modules/classes/reducer'
 
 const init: StoreState = {
   user: initUserState,
+  classes: initClassesState,
 }
 
 type StoreReturnType = {

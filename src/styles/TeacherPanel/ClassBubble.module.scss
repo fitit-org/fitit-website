@@ -1,0 +1,17 @@
+.bubble {
+  background: url(../../img/panels/bubble.svg) center no-repeat;
+  width: 210px;
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  cursor: pointer;
+
+  &Text {
+    font-size: 4em;
+    color: #fa61de;
+  }
+}

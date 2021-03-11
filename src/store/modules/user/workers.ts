@@ -62,7 +62,6 @@ export function* getUserWorker(): Generator<
   unknown
 > {
   try {
-    console.log('getUserWorker called')
     const data = yield call(getUser, localStorage.getItem('token') as string)
     yield put(userAction(GET_USER_SUCCESS, data))
     return data
