@@ -20,7 +20,7 @@
 
   &__grid {
     display: grid;
-    grid-gap: 100px 164px;
+    grid-gap: 50px 82px;
     text-align: center;
     flex: 1;
     max-width: 90%;
@@ -76,7 +76,7 @@
 }
 
 /* moblie phones*/
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 480px) {
   .box {
     max-width: 100%;
     max-height: 100%;

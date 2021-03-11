@@ -120,19 +120,58 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 480px) {
   #login-register {
-    margin-left: 0;
+    margin: auto;
   }
   .login-register {
-    height: 90%;
-    width: 90%;
+    height: 80vh;
+    width: 80vh;
+
+    &--header {
+      font-size: 2.5em;
+      margin-bottom: 15px;
+    }
+
     &__container {
       flex-direction: column;
       justify-content: center;
     }
   }
   .login {
-    margin-right: 0;
+    height: 100%;
+    margin-right: 0%;
+
+    &__input {
+      &--text {
+        font-size: 1em;
+        color: $input-color;
+        font-weight: 400;
+        font-style: italic;
+        width: 300px;
+      }
+    }
+    &__button {
+      float: none;
+      width: 200px;
+      margin: auto;
+      margin-top: 3%;
+    }
+    &__forget {
+      &--text {
+        font-size: 1em;
+      }
+    }
+  }
+  .register {
+    height: 100%;
+    margin-top: -50%;
+    margin-left: 0%;
+
+    &__agreement {
+      &--text {
+        font-size: 1em;
+      }
+    }
   }
 }
