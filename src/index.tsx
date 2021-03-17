@@ -12,10 +12,14 @@ import { rootSagas } from './store/modules/moduleRoot'
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import reportWebVitals from './reportWebVitals'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 import validateEnv from './utils/validateEnv'
 
 import './styles/index.scss'
+
+library.add(faUser, faArrowLeft)
 
 const theStore = store()
 theStore.runSaga(rootSagas)

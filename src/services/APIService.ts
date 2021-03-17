@@ -1,6 +1,7 @@
 import LoginDTO from '../types/login.dto'
 import RegisterDTO from '../types/register.dto'
 import User from '../types/User'
+import Class from '../types/Class'
 
 const URI = process.env.REACT_APP_API_URL
 
@@ -80,4 +81,17 @@ export async function getUser(token: string): Promise<Partial<User>> {
   ).then((obj) => {
     return (obj as unknown) as User
   })
+}
+
+export async function getClasses(
+  token: string
+): Promise<{ classes: Array<Class>; users: Array<User> }> {
+  return fetchAndCatch(
+    FetchMethod.GET,
+    `${URI}/api/v1/classes`,
+    undefined,
+    token
+  ).then(
+    (obj) => (obj as unknown) as { classes: Array<Class>; users: Array<User> }
+  )
 }

@@ -1,0 +1,66 @@
+.teacherPanel {
+  &Background {
+    background: url(../../img/logoSmall.svg) no-repeat 15px 15px,
+      linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 1) 70%,
+        rgba(255, 255, 255, 1) 80%,
+        rgba(255, 255, 255, 0) 100%
+      ),
+      linear-gradient(245deg, #037ae9 0%, #f500c8 100%) 0% 0% padding-box
+        no-repeat;
+    overflow: auto;
+  }
+
+  &Classes {
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    margin-top: 20rem;
+  }
+
+  &ActivityList {
+    margin-top: 8rem;
+    width: 50%;
+    text-align: center;
+    color: #fa61de;
+
+    &Text {
+      font-size: 2.5em;
+      display: block;
+      margin-bottom: 2rem;
+    }
+
+    &LastActivitiesWrapper {
+      width: 50%;
+      margin: auto;
+    }
+
+    &LastActivitiesGrid {
+      margin-bottom: 1rem;
+      font-size: 1.5em;
+      display: grid;
+      grid-template-columns: 50% 25% 25%;
+      text-align: left;
+
+      span:not(:first-child) {
+        color: #5ba9f1;
+      }
+    }
+  }
+
+  &FooterContainer {
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 2rem;
+
+    &Footer {
+      display: flex;
+      justify-content: center;
+      margin: auto;
+      width: 60%;
+    }
+  }
+}
