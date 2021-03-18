@@ -43,7 +43,14 @@ fitit-website
 │   │   │   └── StartActivity.tsx
 │   │   ├── Dashboards
 │   │   │   ├── TeacherPanel
-│   │   │   │   └── ClassBubble.tsx
+│   │   │   │   ├── ActivityBubble.tsx
+│   │   │   │   ├── ClassBubble.tsx
+│   │   │   │   ├── CreateClass
+│   │   │   │   │   ├── StepOne.tsx
+│   │   │   │   │   └── StepTwo.tsx
+│   │   │   │   ├── CreateClassModal.tsx
+│   │   │   │   ├── MainView.tsx
+│   │   │   │   └── SingleClassView.tsx
 │   │   │   └── TheUserNav.tsx
 │   │   ├── ErrorBoundary.tsx
 │   │   ├── Login.tsx
@@ -57,8 +64,6 @@ fitit-website
 │   │   ├── contact
 │   │   ├── info
 │   │   ├── login-register
-│   │   ├── logo.png
-│   │   ├── logoSmall.svg
 │   │   ├── main-view
 │   │   └── panels
 │   ├── index.tsx
@@ -98,6 +103,7 @@ fitit-website
 │   │   ├── styles-StudentPanel.scss
 │   │   ├── TeacherPanel
 │   │   │   ├── ClassBubble.module.scss
+│   │   │   ├── CreateClassModal.module.scss
 │   │   │   └── TeacherPanel.module.scss
 │   │   ├── TheUserNav.module.scss
 │   │   └── variables.scss
