@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { TheUserNav } from '../components/Dashboards/TheUserNav'
 import PanelFooter from '../components/PanelFooter'
@@ -25,6 +25,11 @@ type TeacherPanelProps = {
 
 const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
   const [hasArrow, changeArrow] = useState(false)
+  const [showCreateClassModal, changeCreateClassModal] = useState(false)
+
+  const CreateClassModal = lazy(
+    () => import('../components/Dashboards/TeacherPanel/CreateClassModal')
+  )
 
   useEffect(() => {
     if (!props.getFetched) props.getClasses(GET_CLASSES_REQUEST, undefined)
@@ -45,7 +50,10 @@ const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
           }
           return ''
         })}
-        <ClassBubble key={'new'} />
+        <ClassBubble
+          ClickHandler={() => changeCreateClassModal(true)}
+          key={'new'}
+        />
       </div>
       <div className={teacherPanelStyles.teacherPanelActivityList}>
         <span className={teacherPanelStyles.teacherPanelActivityListText}>
@@ -77,6 +85,11 @@ const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
           <PanelFooter />
         </div>
       </div>
+      {showCreateClassModal ? (
+        <CreateClassModal CloseHandler={() => changeCreateClassModal(false)} />
+      ) : (
+        ''
+      )}
     </div>
   )
 }

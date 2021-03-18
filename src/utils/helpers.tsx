@@ -197,7 +197,6 @@ export const getLastActivitiesFromUsers = (
       _id: obj.activity._id,
     })
   })
-  console.log('Done!', newArr)
   return newArr
 }
 

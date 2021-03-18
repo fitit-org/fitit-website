@@ -95,3 +95,12 @@ export async function getClasses(
     (obj) => (obj as unknown) as { classes: Array<Class>; users: Array<User> }
   )
 }
+
+export async function createClass(token: string, name: string): Promise<Class> {
+  return fetchAndCatch(
+    FetchMethod.POST,
+    `${URI}/api/v1/classes`,
+    { name: name },
+    token
+  ).then((obj) => (obj as unknown) as Class)
+}

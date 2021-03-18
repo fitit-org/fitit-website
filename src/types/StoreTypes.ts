@@ -16,7 +16,8 @@ export interface UserState {
 export interface ClassesState {
   classes: Array<Class>
   users: Array<User>
-  error: { getClasses: boolean }
+  error: { getClasses: boolean; createClass: boolean }
+  success: { createClass: boolean }
   fetched: { getClasses: boolean }
 }
 

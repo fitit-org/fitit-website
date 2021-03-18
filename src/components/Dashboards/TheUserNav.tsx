@@ -24,7 +24,10 @@ const TheUserNavComponent = (props: UserNavProps): JSX.Element => {
   return (
     <div className={userNavStyles.userNav}>
       {props.showArrow ? <FontAwesomeIcon icon="arrow-left" /> : ''}
-      <FontAwesomeIcon icon="user" className={userNavStyles.userNavUserIcon} />
+      <FontAwesomeIcon
+        icon={['fas', 'user']}
+        className={userNavStyles.userNavUserIcon}
+      />
       {props.name} {props.surname}
     </div>
   )

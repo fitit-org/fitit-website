@@ -5,6 +5,9 @@ import User from '../../../types/User'
 import {
   GET_CLASSES_SUCCESS,
   GET_CLASSES_FAILED,
+  CREATE_CLASS_SUCCESS,
+  CREATE_CLASS_FAILED,
+  CREATE_CLASS_UNSUCCESS,
 } from '../../../utils/constants'
 
 export const initClassesState: ClassesState = {
@@ -12,9 +15,13 @@ export const initClassesState: ClassesState = {
   users: [] as Array<User>,
   error: {
     getClasses: false,
+    createClass: false,
   },
   fetched: {
     getClasses: false,
+  },
+  success: {
+    createClass: false,
   },
 }
 
@@ -30,6 +37,7 @@ function setState(
     users: users,
     error: {
       getClasses: false,
+      createClass: false,
     },
     fetched: {
       getClasses: true,
@@ -51,6 +59,48 @@ function setGetError(state: ClassesState): ClassesState {
   }
 }
 
+function setCreateError(state: ClassesState): ClassesState {
+  return {
+    ...state,
+    error: {
+      ...state.error,
+      createClass: true,
+    },
+    fetched: {
+      ...state.fetched,
+    },
+  }
+}
+
+function pushClass(
+  state: ClassesState,
+  action: StoreAction<string, Class>
+): ClassesState {
+  return {
+    ...state,
+    classes: [...state.classes, action.payload],
+    error: {
+      ...state.error,
+      createClass: false,
+    },
+    fetched: {
+      ...state.fetched,
+    },
+    success: {
+      createClass: true,
+    },
+  }
+}
+
+function unsuccess(state: ClassesState): ClassesState {
+  return {
+    ...state,
+    success: {
+      createClass: false,
+    },
+  }
+}
+
 export const classesReducer: Reducer<ClassesState, StoreAction> = (
   state: ClassesState = initClassesState,
   action: StoreAction
@@ -66,6 +116,12 @@ export const classesReducer: Reducer<ClassesState, StoreAction> = (
       )
     case GET_CLASSES_FAILED:
       return setGetError(state)
+    case CREATE_CLASS_SUCCESS:
+      return pushClass(state, action as StoreAction<string, Class>)
+    case CREATE_CLASS_FAILED:
+      return setCreateError(state)
+    case CREATE_CLASS_UNSUCCESS:
+      return unsuccess(state)
     default:
       return {
         ...state,
