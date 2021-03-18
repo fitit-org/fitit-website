@@ -144,6 +144,58 @@ interface UserWithLastActivityAndDuration {
   _id: string
 }
 
+interface LastActivitiesWithDate {
+  activityTypeName: string
+  parsedDurationInMinutes: string
+  _id: string
+  endDate: string
+}
+
+export const getLastActivityFromUser = (
+  user: User
+): Array<LastActivitiesWithDate> => {
+  const activitiesWithDuration = [] as Array<ActivityLog>
+  if (user.activityLog_ids !== undefined && !user.isTeacher && user.isActive) {
+    ;(user.activityLog_ids as Array<ActivityLog>).forEach((activity) => {
+      if (activity.startDate && activity.endDate) {
+        activitiesWithDuration.push(activity)
+      }
+    })
+  }
+  activitiesWithDuration.sort((a, b) => {
+    return (
+      new Date(b.endDate as string).getTime() -
+      new Date(a.endDate as string).getTime()
+    )
+  })
+  const newArr: Array<LastActivitiesWithDate> = []
+  activitiesWithDuration.forEach((obj) => {
+    const diff: number = Math.abs(
+      new Date(obj.endDate as string).getTime() -
+        new Date(obj.startDate as string).getTime()
+    )
+    const diffInMins = diff / 60000
+    const diffInHours = diffInMins / 60
+    const restInMins = diffInMins % 60
+    let durString = ''
+    if (diffInHours > 0) {
+      durString = `${Math.floor(diffInHours)}h`
+      if (restInMins > 0) {
+        durString = `${durString} ${Math.round(restInMins)} min`
+      }
+    } else {
+      durString = `${Math.round(diffInMins)} min`
+    }
+    newArr.push({
+      activityTypeName: (obj.activityType_id as ActivityType).name,
+      parsedDurationInMinutes: durString,
+      _id: obj._id,
+      endDate: obj.endDate as string,
+    })
+  })
+  return newArr
+}
+
 export const getLastActivitiesFromUsers = (
   users: Array<User>,
   last: number

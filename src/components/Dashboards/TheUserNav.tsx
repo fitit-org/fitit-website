@@ -24,16 +24,19 @@ type UserNavProps = {
   showArrow: boolean
   clearUser: UserAction
   clearClasses: ClassesAction
+  BackHandler?: (e: React.MouseEvent<SVGSVGElement>) => void
 }
 
 const TheUserNavComponent = (props: UserNavProps): JSX.Element => {
   const history = useHistory()
 
+  const { name, surname, getUser } = props
+
   useEffect(() => {
-    if (!props.name || !props.surname) {
-      props.getUser(GET_USER_REQUEST, undefined)
+    if (!name || !surname) {
+      getUser(GET_USER_REQUEST, undefined)
     }
-  }, [props])
+  }, [name, surname, getUser])
 
   const handleLogout = (e: React.MouseEvent<SVGSVGElement>) => {
     props.clearClasses(CLEAN_CLASSES, undefined)
@@ -43,12 +46,20 @@ const TheUserNavComponent = (props: UserNavProps): JSX.Element => {
 
   return (
     <div className={userNavStyles.userNav}>
-      {props.showArrow ? <FontAwesomeIcon icon={['fas', 'arrow-left']} /> : ''}
+      {props.showArrow ? (
+        <FontAwesomeIcon
+          icon={['fas', 'arrow-left']}
+          onClick={props.BackHandler}
+          className={userNavStyles.userNavBackIcon}
+        />
+      ) : (
+        ''
+      )}
       <FontAwesomeIcon
         icon={['fas', 'user']}
         className={userNavStyles.userNavUserIcon}
       />
-      {props.name} {props.surname}
+      {name} {surname}
       <FontAwesomeIcon
         className={userNavStyles.userNavLogoutIcon}
         onClick={handleLogout}
