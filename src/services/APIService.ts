@@ -114,6 +114,7 @@ export function addActivity(activityData: ActivityData, token: string) {
     activityData,
     token
   )
+}
 
 export async function createClass(token: string, name: string): Promise<Class> {
   return fetchAndCatch(
