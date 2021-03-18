@@ -1,34 +1,74 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { TheUserNav } from '../components/Dashboards/TheUserNav'
 import PanelFooter from '../components/PanelFooter'
 import { StoreState } from '../types/StoreTypes'
-import { token } from '../store/modules/user/selectors'
-import { classes, getFetched, users } from '../store/modules/classes/selectors'
+import { getFetched, users, classes } from '../store/modules/classes/selectors'
 import { classesAction, ClassesAction } from '../store/modules/classes/actions'
-import Class from '../types/Class'
-import User from '../types/User'
 import { GET_CLASSES_REQUEST } from '../utils/constants'
 import { connect } from 'react-redux'
-import { ClassBubble } from '../components/Dashboards/TeacherPanel/ClassBubble'
-import { getLastActivitiesFromUsers } from '../utils/helpers'
+import { MainView } from '../components/Dashboards/TeacherPanel/MainView'
+import { useHistory } from 'react-router-dom'
 
 import teacherPanelStyles from '../styles/TeacherPanel/TeacherPanel.module.scss'
+import Class from '../types/Class'
+import User from '../types/User'
 
 type TeacherPanelProps = {
+  getFetched: boolean
+  getClasses: ClassesAction
   classes: Array<Class>
   users: Array<User>
-  getFetched: boolean
-  token: string
-  getClasses: ClassesAction
 }
 
 const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
-  const [hasArrow, changeArrow] = useState(false)
+  const history = useHistory()
+  const [showCreateClassModal, changeCreateClassModal] = useState(false)
+  const [singleClassView, setSingleClassView] = useState(false)
+  const [viewedClassId, setViewedClassId] = useState('')
+
+  const CreateClassModal = lazy(
+    () => import('../components/Dashboards/TeacherPanel/CreateClassModal')
+  )
+  const SingleClassView = lazy(
+    () => import('../components/Dashboards/TeacherPanel/SingleClassView')
+  )
+
+  const { getFetched, getClasses } = props
+
+  const handleBack = (e: React.MouseEvent<SVGSVGElement>) => {
+    setSingleClassView(false)
+    history.push('/teacher')
+    setViewedClassId('')
+  }
+
+  const handleClickMainView = (id?: string) => {
+    if (id === undefined) {
+      changeCreateClassModal(true)
+      return
+    }
+    setViewedClassId(id)
+    changeCreateClassModal(false)
+    history.push(`/teacher/${id}`)
+    setSingleClassView(true)
+  }
+
+  const getUsersInClass = (id: string) => {
+    const usersFiltered: Array<User> = []
+    props.users.forEach((user) => {
+      if ((user.class_ids as Array<string>).includes(id) && !user.isTeacher) {
+        usersFiltered.push(user)
+      }
+    })
+    return usersFiltered
+  }
+
+  const getSingleClass = (id: string) =>
+    props.classes.filter((singleClass) => singleClass._id === id)[0]
 
   useEffect(() => {
-    if (!props.getFetched) props.getClasses(GET_CLASSES_REQUEST, undefined)
-  }, [props.classes])
+    if (!getFetched) getClasses(GET_CLASSES_REQUEST, undefined)
+  }, [getFetched, getClasses])
 
   return (
     <div
@@ -37,55 +77,33 @@ const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
       <Helmet>
         <title>Panel nauczyciela | Fit IT</title>
       </Helmet>
-      <TheUserNav showArrow={hasArrow} />
-      <div className={teacherPanelStyles.teacherPanelClasses}>
-        {props.classes.map((singleClass) => {
-          if (singleClass.isActive) {
-            return <ClassBubble key={singleClass._id} class={singleClass} />
-          }
-          return ''
-        })}
-        <ClassBubble key={'new'} />
-      </div>
-      <div className={teacherPanelStyles.teacherPanelActivityList}>
-        <span className={teacherPanelStyles.teacherPanelActivityListText}>
-          Ostatnia aktywność
-        </span>
-        <div
-          className={
-            teacherPanelStyles.teacherPanelActivityListLastActivitiesWrapper
-          }
-        >
-          {getLastActivitiesFromUsers(props.users, 4).map((obj) => {
-            return (
-              <div
-                key={obj._id}
-                className={
-                  teacherPanelStyles.teacherPanelActivityListLastActivitiesGrid
-                }
-              >
-                <span>{`${obj.name} ${obj.surname}`}</span>
-                <span>{obj.activityTypeName}</span>
-                <span>{obj.parsedDurationInMinutes}</span>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      <TheUserNav BackHandler={handleBack} showArrow={singleClassView} />
+      {!singleClassView ? (
+        <MainView ClickHandler={handleClickMainView} />
+      ) : (
+        <SingleClassView
+          class={getSingleClass(viewedClassId)}
+          users={getUsersInClass(viewedClassId)}
+        />
+      )}
       <div className={teacherPanelStyles.teacherPanelFooterContainer}>
         <div className={teacherPanelStyles.teacherPanelFooterContainerFooter}>
           <PanelFooter />
         </div>
       </div>
+      {showCreateClassModal ? (
+        <CreateClassModal CloseHandler={() => changeCreateClassModal(false)} />
+      ) : (
+        ''
+      )}
     </div>
   )
 }
 
 const stateToProps = (state: StoreState) => ({
-  token: token(state),
+  getFetched: getFetched(state),
   classes: classes(state),
   users: users(state),
-  getFetched: getFetched(state),
 })
 
 const dispatchToProps = {
