@@ -1,5 +1,4 @@
 import React, { MouseEventHandler, useState } from 'react'
-import { render } from 'react-dom'
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form'
 import { addActivity, getActivityTypes } from '../../services/APIService'
 import { ActivityType } from '../../types/ActivityType'
@@ -24,7 +23,7 @@ type FormData = {
 }
 
 const SaveActivity = (props: SaveActivityProps): JSX.Element => {
-  const { register, errors, handleSubmit, getValues } = useForm<FormData>({
+  const { register, handleSubmit } = useForm<FormData>({
     mode: 'onBlur',
   })
 

@@ -106,6 +106,7 @@ export async function getActivityTypes(): Promise<Array<ActivityType>> {
   return (obj as unknown) as Array<ActivityType>
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function addActivity(activityData: ActivityData, token: string) {
   fetchAndCatch(
     FetchMethod.POST,
