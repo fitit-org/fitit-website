@@ -1,0 +1,95 @@
+.overlayShadow {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.modal {
+  position: fixed;
+  height: 60vh;
+  width: 45vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 4rem;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  text-align: center;
+
+  &CloseIcon {
+    position: fixed;
+    top: 4%;
+    right: 3%;
+    color: #fa61de;
+    cursor: pointer;
+  }
+
+  &Title {
+    display: block;
+    margin-top: 5vh;
+    font-size: 3em;
+    color: #037be9b8;
+  }
+
+  &InputContainer {
+    border-bottom: 1px solid black;
+    position: relative;
+    margin: auto;
+    margin-top: 15vh;
+    width: 60%;
+
+    &Code {
+      font-size: 2.5rem;
+    }
+
+    &KodDostepu {
+      color: #ccc5cc;
+      position: absolute;
+      font-size: 1.3rem;
+      top: 3em;
+      left: 2%;
+    }
+
+    input {
+      border: none;
+      color: #ccc5cc;
+      font-size: 1.3rem;
+    }
+
+    svg {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      color: #fa61de;
+    }
+  }
+
+  &Error {
+    color: red;
+  }
+
+  &ButtonsContainer {
+    position: absolute;
+    bottom: 10vh;
+    width: 90%;
+    text-align: right;
+
+    span {
+      color: #037be9b8;
+      font-size: 2em;
+      cursor: pointer;
+    }
+
+    span:hover {
+      text-decoration: underline;
+    }
+
+    span:first-child {
+      margin-right: 5rem;
+    }
+  }
+}
