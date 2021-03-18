@@ -8,6 +8,7 @@ import {
   CREATE_CLASS_SUCCESS,
   CREATE_CLASS_FAILED,
   CREATE_CLASS_UNSUCCESS,
+  CLEAN_CLASSES,
 } from '../../../utils/constants'
 
 export const initClassesState: ClassesState = {
@@ -101,6 +102,10 @@ function unsuccess(state: ClassesState): ClassesState {
   }
 }
 
+function clean(): ClassesState {
+  return initClassesState
+}
+
 export const classesReducer: Reducer<ClassesState, StoreAction> = (
   state: ClassesState = initClassesState,
   action: StoreAction
@@ -122,6 +127,8 @@ export const classesReducer: Reducer<ClassesState, StoreAction> = (
       return setCreateError(state)
     case CREATE_CLASS_UNSUCCESS:
       return unsuccess(state)
+    case CLEAN_CLASSES:
+      return clean()
     default:
       return {
         ...state,

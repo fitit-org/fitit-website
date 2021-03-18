@@ -17,6 +17,7 @@ import {
   faUser,
   faArrowLeft,
   faUserFriends,
+  faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
 
@@ -24,7 +25,7 @@ import validateEnv from './utils/validateEnv'
 
 import './styles/index.scss'
 
-library.add(faUser, faArrowLeft, faTimesCircle, faUserFriends)
+library.add(faUser, faArrowLeft, faTimesCircle, faUserFriends, faSignOutAlt)
 
 const theStore = store()
 theStore.runSaga(rootSagas)

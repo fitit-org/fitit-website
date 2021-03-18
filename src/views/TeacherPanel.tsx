@@ -31,9 +31,11 @@ const TeacherPanelComponent = (props: TeacherPanelProps): JSX.Element => {
     () => import('../components/Dashboards/TeacherPanel/CreateClassModal')
   )
 
+  const { getFetched, getClasses } = props
+
   useEffect(() => {
-    if (!props.getFetched) props.getClasses(GET_CLASSES_REQUEST, undefined)
-  }, [props.classes])
+    if (!getFetched) getClasses(GET_CLASSES_REQUEST, undefined)
+  }, [getFetched, getClasses])
 
   return (
     <div
