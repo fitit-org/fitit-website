@@ -1,7 +1,9 @@
+import { ActivityType } from '../types/ActivityType'
 import LoginDTO from '../types/login.dto'
 import RegisterDTO from '../types/register.dto'
 import User from '../types/User'
 import Class from '../types/Class'
+import ActivityData from '../types/ActivityData'
 
 const URI = process.env.REACT_APP_API_URL
 
@@ -93,5 +95,22 @@ export async function getClasses(
     token
   ).then(
     (obj) => (obj as unknown) as { classes: Array<Class>; users: Array<User> }
+  )
+}
+
+export async function getActivityTypes(): Promise<Array<ActivityType>> {
+  const obj = await fetchAndCatch(
+    FetchMethod.GET,
+    `${URI}/api/v1/activitytypes`
+  )
+  return (obj as unknown) as Array<ActivityType>
+}
+
+export function addActivity(activityData: ActivityData, token: string) {
+  fetchAndCatch(
+    FetchMethod.POST,
+    `${URI}/api/v1/activitylog`,
+    activityData,
+    token
   )
 }

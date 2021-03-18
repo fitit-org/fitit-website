@@ -1,7 +1,6 @@
 import React from 'react'
-import ActivityLog from '../types/ActivityLog'
-import { ActivityType } from '../types/ActivityType'
-import boxing from '../img/activities/boxing.svg'
+import ActivityLog from '../../types/ActivityLog'
+import { ActivityType } from '../../types/ActivityType'
 
 type Props = {
   activity: ActivityLog | string
@@ -16,11 +15,7 @@ const ActivityBubble = (props: Props): JSX.Element => {
   if (props.activity !== undefined) {
     return (
       <div className={'student-panel__history-bubble'}>
-        <img
-          className={'student-panel__history-bubble--img'}
-          src={boxing}
-          alt=""
-        />
+        <img className={'student-panel__history-bubble--img'} alt="" />
         <span className={'student-panel__history-bubble--text'}>
           {(activityType as ActivityType).name}
         </span>
@@ -34,7 +29,13 @@ const ActivityBubble = (props: Props): JSX.Element => {
       </div>
     )
   } else {
-    return <span>{'Brak aktywności'}</span>
+    return (
+      <>
+        <br />
+        <br />
+        <span>{'Brak aktywności'}</span>
+      </>
+    )
   }
 }
 

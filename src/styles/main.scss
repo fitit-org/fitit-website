@@ -11,6 +11,10 @@ html {
     outline: none;
     border-bottom: 1.5px solid;
     border-image: linear-gradient(245deg, #037be9ba 0%, #f700cabd 100%) 1;
+    font-size: $input-size;
+    color: $input-color;
+    font-weight: 400;
+    font-style: italic;
   }
 }
 
@@ -43,4 +47,8 @@ html {
   .hr--vertical {
     display: none;
   }
+}
+
+.display-none {
+  display: none;
 }
