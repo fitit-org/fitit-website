@@ -1,5 +1,5 @@
 import React from 'react'
-import ActivityBubble from '../components/ActivityBubble'
+import ActivityBubble from '../components/ActivityComponents/ActivityBubble'
 import ActivityLog from '../types/ActivityLog'
 import { ActivityType } from '../types/ActivityType'
 import User from '../types/User'
@@ -303,6 +303,16 @@ export const renderLastActivities = (
     }
     return lastActivities
   } else {
-    return <span className={'student-panel__header'}>{'Brak aktywności'}</span>
+    return (
+      <span className={'student-panel__header-no-activity'}>
+        {'Brak aktywności'}
+      </span>
+    )
   }
+}
+
+export const hmsToMs = (hms: string): number => {
+  const a = hms.split(':')
+
+  return (+a[0] * 60 * 60 + +a[1] * 60 + +a[2]) * 1000
 }

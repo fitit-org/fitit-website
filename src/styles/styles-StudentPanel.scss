@@ -20,7 +20,7 @@
     }
   }
 
-  &__train {
+  &__activity {
     width: 100vw;
     height: 35vh;
     display: flex;
@@ -29,6 +29,10 @@
 
     &-kcal {
       margin-right: 10%;
+    }
+
+    &-back {
+      margin-right: 50px;
     }
 
     &-start {
@@ -40,16 +44,110 @@
       justify-content: center;
       flex-shrink: 0;
       margin-top: -50px;
+      cursor:pointer;
 
       &--header {
+        text-align: center;
         display: block;
         font-size: $header-size;
         color: #037be9b8;
       }
+
+      &--header-sm {
+        text-align: center;
+        display: block;
+        font-size: $bg-text-size;
+        color: #037be9b8;
+      }
+    }
+
+    &-stop {
+      &--header {
+        text-align: center;
+        display: block;
+        font-size: $header-size;
+        color: #F700CA9E;
+      }
+    }
+
+    &-select {
+      @extend .student-panel__activity-start;
+      cursor: auto;
     }
 
     &-time {
       margin-left: 10%;
+    }
+
+    &-bubble {
+      background: url(../img/panels/bubble.svg) center no-repeat;
+      width: 210px;
+      height: 210px;
+      display: flex;
+      margin-top: 30px;
+      margin-left: 30px;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      cursor:pointer;
+
+      &--no-click {
+        cursor:auto;
+      }
+
+      &--text {
+        text-align: center;
+        color: #037BE9B8;
+        font-size: $bg-text-size;
+      }
+
+      &--img {
+        width: auto;
+        height: 65px;
+      }
+    }
+
+    &-container {
+      overflow-x: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      flex-wrap: nowrap;
+      flex-shrink: 0;
+    }
+
+    &-saved {
+      background: linear-gradient(0deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.95) 100%);
+      border: solid 1px #707070;
+      border-radius: 70px;
+      position: absolute;
+      width: 40%;
+      height: 40%;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      top: 30vh;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
+      &--header {
+        color: #037BE9B8;
+        font-size: $bg-text-size;
+      }
+
+      &--back {
+        color: #037BE9B8;
+        font-size: $md-text-size;
+      }
+
+      &--back:hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -58,6 +156,12 @@
     text-align: center;
     font-size: $bg-text-size;
     color: #037be9b8;
+
+    &-no-activity {
+      @extend .student-panel__header;
+      margin-top: 50px;
+      width: 100vw;
+    }
 
     &--highlighted{
       display: block;
@@ -75,10 +179,11 @@
     justify-content: center;
 
     &-activities {
+      overflow-x: auto;
       display: flex;
       flex-direction: row;
-      justify-content: center;
-      flex-wrap: wrap;
+      justify-content: left;
+      flex-wrap: nowrap;
     }
 
     &-bubble {
@@ -107,6 +212,41 @@
         border-top: #f500c8 1px solid;
         margin: 5px 0 5px 0;
       }
+    }
+  }
+
+  &__save-activity {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    & input {
+      text-align: center;
+      width: 150px;
+    }
+
+    &-km {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-right: 50px;
+    }
+
+    &-time {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-left: 50px;
+    }
+
+    &--header {
+      @extend .student-panel__header;
+      margin-bottom: 10px;
     }
   }
 

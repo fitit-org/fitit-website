@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ActivityLog from '../types/ActivityLog'
 
 import { Helmet } from 'react-helmet-async'
-import {
-  activityKcal,
-  activityTime,
-  msToTime,
-  renderLastActivities,
-} from '../utils/helpers'
 import { userAction, UserAction } from '../store/modules/user/actions'
 import User from '../types/User'
 import { StoreState } from '../types/StoreTypes'
 import { user, token, activityLog } from '../store/modules/user/selectors'
 import { GET_USER_REQUEST } from '../utils/constants'
 import { connect } from 'react-redux'
+import PanelFooter from '../components/PanelFooter'
+import SaveActivity from '../components/ActivityComponents/SaveActivity'
+import { TheUserNav } from '../components/Dashboards/TheUserNav'
+import CurrentActivity from '../components/ActivityComponents/CurrentActivity'
+import ActivityHistory from '../components/ActivityComponents/ActivityHistory'
+import ActivitySelect from '../components/ActivityComponents/ActivitySelect'
+import ActivityTypes from '../components/ActivityComponents/ActivityTypes'
+import StartActivity from '../components/ActivityComponents/StartActivity'
 
 type StudentPanelProps = {
   user: Partial<User>
@@ -24,7 +26,28 @@ type StudentPanelProps = {
 
 const StudentPanel = (props: StudentPanelProps): JSX.Element => {
   const period = 7
-  const count = 5
+  const count = 15
+
+  const [currentView, setCurrentView] = useState('start')
+
+  const beginning = () => {
+    setCurrentView('start')
+  }
+
+  const start = () => {
+    setCurrentView('workout')
+  }
+
+  const select = (event: React.MouseEvent) => {
+    const t = event.target as Element
+    if (t !== null) {
+      if (t.id === '') {
+        setCurrentView(t.parentElement?.id as string)
+      } else {
+        setCurrentView(t.id)
+      }
+    }
+  }
 
   useEffect(() => {
     if (Object.keys(props.user).length === 0) {
@@ -42,59 +65,40 @@ const StudentPanel = (props: StudentPanelProps): JSX.Element => {
         <title>Panel ucznia | Fit IT</title>
       </Helmet>
       <div className={'student-panel__profile'}>
-        <img src="" alt="" className={'student-panel__profile-picture'} />
-        <div
-          className={
-            'student-panel__profile-name student-panel__profile-name--text'
-          }
-        >
-          {`${props.user.name} ${props.user.surname}`}
-        </div>
+        <TheUserNav showArrow={false} />
       </div>
-      <div className={'student-panel__train'}>
-        <div className={'student-panel__train-kcal'}>
-          <span className={'student-panel__header'}>Ostatni tydzień</span>
-          <span className={'student-panel__header--highlighted'}>
-            {`${activityKcal(
-              props.activityLog as Array<ActivityLog>,
-              period
-            )} kcal`}
-          </span>
-          <span className={'student-panel__header'}>Spalone kalorie</span>
-        </div>
-        <div className={'student-panel__train-start'}>
-          <span className={'student-panel__train-start--header'}>START</span>
-        </div>
-        <div className={'student-panel__train-time'}>
-          <span className={'student-panel__header'}>Ostatni tydzień</span>
-          <span className={'student-panel__header--highlighted'}>
-            {msToTime(
-              activityTime(props.activityLog as Array<ActivityLog>, period)
-            )}
-          </span>
-          <span className={'student-panel__header'}>Czas aktywności</span>
-        </div>
+      <div id={'student-panel__activity'} className={'student-panel__activity'}>
+        {currentView === 'start' && (
+          <StartActivity
+            activityLog={props.activityLog}
+            period={period}
+            start={start}
+          />
+        )}
+
+        {currentView === 'workout' && <ActivitySelect />}
+
+        {currentView !== 'start' && currentView !== 'workout' && (
+          <CurrentActivity activity={currentView} />
+        )}
       </div>
       <div className={'student-panel__history'}>
-        <span className={'student-panel__header'}>Historia treningów</span>
-        <div className={'student-panel__history-activities'}>
-          {renderLastActivities(props.activityLog as Array<ActivityLog>, count)}
-        </div>
+        {currentView === 'start' && (
+          <ActivityHistory activityLog={props.activityLog} count={count} />
+        )}
+
+        {currentView === 'workout' && <ActivityTypes select={select} />}
+
+        {currentView !== 'start' && currentView !== 'workout' && (
+          <SaveActivity
+            activity={currentView}
+            token={props.token}
+            goBack={beginning}
+          />
+        )}
       </div>
       <div className={'student-panel__footer'}>
-        <span
-          className={'student-panel__footer--text student-panel__footer--left'}
-        >
-          Warunki korzystania
-        </span>
-        <span className={'student-panel__footer--text'}>
-          Copyright &copy; FIT Fitness IT
-        </span>
-        <span
-          className={'student-panel__footer--text student-panel__footer--right'}
-        >
-          Polityka prywatności
-        </span>
+        <PanelFooter />
       </div>
     </div>
   )
